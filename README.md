@@ -69,7 +69,7 @@ O Minishell foi estruturado em 4 etapas principais:
 
 ```bash
 # Clone o repositório
-git clone [https://github.com/seu-usuario/minishell.git](https://github.com/seu-usuario/minishell.git)
+git clone git@github.com:Cadavanaugh/42-Project-Minishell.git
 
 # Entre na pasta
 cd minishell
