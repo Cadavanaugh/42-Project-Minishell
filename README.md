@@ -7,7 +7,7 @@
 
 ---
 
-## 🚀 Sobre o Projeto
+## 🚀 Descrição
 
 O **Minishell** é o primeiro grande desafio em dupla do currículo da 42. O objetivo é recriar o funcionamento básico de um interpretador de comandos, lidando com a complexidade de gerenciar processos filhos, manipular descritores de arquivos e garantir a limpeza total de memória (zero leaks).
 
@@ -63,13 +63,13 @@ O Minishell foi estruturado em 4 etapas principais:
 
 ---
 
-## 🛠️ Como Compilar e Rodar
+## 🛠️ Instruções
 
 **Dependência:** O projeto utiliza a biblioteca `readline`. Certifique-se de tê-la instalada em seu sistema.
 
 ```bash
 # Clone o repositório
-git clone git@github.com:Cadavanaugh/42-Project-Minishell.git
+git clone git@github.com:Cadavanaugh/42-Project-Minishell.git minishell
 
 # Entre na pasta
 cd minishell
@@ -79,3 +79,11 @@ make
 
 # Execute o shell
 ./minishell
+
+## 🧪 Testes
+
+-------------------------------------------------------------------------------------------------------------
+
+## 📚 Recursos
+
+Acompanhe a versão completa pelo notion: https://www.notion.so/Minishell-2fc1a6c6214c811aab29c9ce6abb0c3e
