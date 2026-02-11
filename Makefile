@@ -1,13 +1,23 @@
-NAME = minishell
-CC = cc
-CFLAGS = -Wall -Werror -Wextra
-SRCS = src/minishell.c
-OBJS = $(SRCS:%.c=%.o)
+NAME			= minishell
 
-all: $(NAME)
+LIBFT_DIR		= ./libs/libft
+LIBFT			= $(LIBFT_DIR)/libft.a	
+LDLFLAGS		= -L$(LIBFT_DIR) -lft -lreadline
+LIBFT_LINK		= -L$(LIBFT_DIR) -lft
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) -Llibft -lft -o $(NAME)
+CC 				= cc
+CFLAGS 			= -Wall -Werror -Wextra -I.
+
+SRCS 			= src/minishell.c
+OBJS 			= $(SRCS:%.c=%.o)
+
+all: $(LIBFT) $(NAME)
+
+$(LIBFT):
+	@make -C $(LIBFT_DIR)
+
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LINK) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
