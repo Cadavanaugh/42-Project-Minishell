@@ -11,8 +11,8 @@
 //# include <string.h>
 //# include <termios.h>
 //# include <sys/wait.h>
-//# include <readline/readline.h>
-//# include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 //# include "builtins.h"
 
 #endif

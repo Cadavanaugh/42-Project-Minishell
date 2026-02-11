@@ -3,7 +3,6 @@ NAME			= minishell
 LIBFT_DIR		= ./libs/libft
 LIBFT			= $(LIBFT_DIR)/libft.a	
 LDLFLAGS		= -L$(LIBFT_DIR) -lft -lreadline
-LIBFT_LINK		= -L$(LIBFT_DIR) -lft
 
 CC 				= cc
 CFLAGS 			= -Wall -Werror -Wextra -I.
@@ -17,7 +16,7 @@ $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LINK) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LDLFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
