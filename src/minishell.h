@@ -16,6 +16,6 @@
 //# include "builtins.h"
 
 void lexit(char *input);
-int array_length(char **array)
+int array_length(char **array);
 
 #endif
