@@ -13,24 +13,25 @@ static void	free_array(char **s)
 	free(s);
 }
 
-static char *find_token_end(char *s)
+static char	*find_token_end(char *s)
 {
-  if (is_metachar(*s))
-  {
-      if ((*s == '>' && *(s + 1) == '>') || (*s == '<' && *(s + 1) == '<'))
-          return (s + 2);
-      return (s + 1);
-  }
+	int	i;
 
-  while (*s && !is_whitechar(*s) && !is_metachar(*s))
-  {
-      if (*s == '"' || *s == '\'')
-          s++;
-      else
-          s++;
-  }
-
-  return (s);
+	i = 0;
+	if (is_metachar(s[i]))
+	{
+		if ((s[i] == '>' && s[i + 1] == '>') || (s[i] == '<' && s[i + 1] == '<'))
+			return (s + 2);
+		return (s + 1);
+	}
+	while (s[i] && !is_whitechar(s[i]) && !is_metachar(s[i]))
+	{
+		if (s[i] == '"' || s[i] == '\'')
+			skip_quotes(s, &i);
+		else
+			i++;
+	}
+	return (s + i);
 }
 
 static int	fill_array(char **split, size_t word_count, char *start)

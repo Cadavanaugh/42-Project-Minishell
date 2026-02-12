@@ -42,3 +42,14 @@ int	is_metachar(char c)
 		return (1);
 	return (0);
 }
+
+void    skip_quotes(char *s, int *i)
+{
+    char    quote;
+    quote = s[*i];
+    (*i)++;
+    while (s[*i] && s[*i] != quote)
+      (*i)++;
+    if (s[*i] == quote)
+      (*i)++;
+}
