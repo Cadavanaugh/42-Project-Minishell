@@ -7,6 +7,9 @@ void lexit(char *input)
 
   for (int x = 0; x < array_length(words); x++)
   {
-    printf("%d, %d: %s\n", array_length(words), x, words[x]);
+    t_token new_token;
+    new_token.value = words[x];
+    new_token.type = define_token_type(words[x]);
+    printf("%d: %s\n", new_token.type, new_token.value);
   }
 }

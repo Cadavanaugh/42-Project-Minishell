@@ -15,7 +15,25 @@
 # include <readline/history.h>
 //# include "builtins.h"
 
+typedef enum e_token_type
+{
+  WORD,           // Palavras comuns (ls, -la, arquivo.txt)
+  PIPE,           // |
+  REDIRECT_IN,    // <
+  REDIRECT_OUT,   // >
+  REDIRECT_APPEND,// >>
+  HEREDOC,        // <<
+}   t_token_type;
+
+typedef struct s_token
+{
+  char            *value; // O conteúdo (ex: "ls")
+  t_token_type    type;   // O tipo (ex: WORD)
+  struct s_token  *next;  // Ponteiro para o próximo token
+}   t_token;
+
 void lexit(char *input);
 int array_length(char **array);
+t_token_type define_token_type(char *word);
 
 #endif
