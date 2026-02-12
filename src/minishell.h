@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "libs/libft/libft.h"
 //# include <stdlib.h>
 //# include <signal.h>
