@@ -13,7 +13,7 @@ int array_length(char **array)
   return counter;
 }
 
-t_token_type define_token_type(char *word)
+t_token_type get_token_type(char *word)
 {
   if (ft_strncmp(word, "|", 1) == 0)
     return PIPE;

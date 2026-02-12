@@ -34,6 +34,6 @@ typedef struct s_token
 
 void lexit(char *input);
 int array_length(char **array);
-t_token_type define_token_type(char *word);
+t_token_type get_token_type(char *word);
 
 #endif
