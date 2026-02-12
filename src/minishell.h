@@ -29,7 +29,6 @@ typedef struct s_token
 {
   char            *value; // O conteúdo (ex: "ls")
   t_token_type    type;   // O tipo (ex: WORD)
-  struct s_token  *next;  // Ponteiro para o próximo token
 }   t_token;
 
 void lexit(char *input);
