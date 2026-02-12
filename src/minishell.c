@@ -2,9 +2,23 @@
 
 int main(int argc, char *argv[], char *env[])
 {
+  char  *input;
+  
   (void)argc;
   (void)argv;
   (void)env;
-  char a = ft_toupper('a');
-  printf("%c", a);
+  while (1)
+  {    
+    input = readline("minishell$ ");
+    if (!input) //tratar CTRL + D pra == NULL
+    {
+      printf("exit\n");
+      break;
+    }
+    if (*input)
+      add_history(input);
+    printf("Você digitou: %s\n", input);
+    free(input);
+  }
+  return (0);
 }
