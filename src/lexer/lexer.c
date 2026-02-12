@@ -21,12 +21,31 @@ static t_token *create_token_list(char **str_tokens)
   return token_list;
 }
 
+static char were_quotes_closed(char *input)
+{
+  int i;
+  int quote_count;
+  i = 0;
+  quote_count = 0;
+  while (input[i])
+  {
+    if (input[i] == '"')
+      quote_count++;
+    i++;
+  }
+  return (quote_count % 2 == 0);
+}
+
 void lexit(char *input)
 {
-  char **words;
-  words = word_splitter(input);
-  (void)words;
-  t_token *token_list;
-  token_list = create_token_list(words);
-  (void)token_list;
+  if (!were_quotes_closed(input))
+    printf("Aspas não fechadas\n");
+  else {
+    char **words;
+    words = word_splitter(input);
+    (void)words;
+    t_token *token_list;
+    token_list = create_token_list(words);
+    (void)token_list;
+  }
 }
