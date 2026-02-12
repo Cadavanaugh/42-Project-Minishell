@@ -35,5 +35,8 @@ typedef struct s_token
 void lexit(char *input);
 int array_length(char **array);
 t_token_type get_token_type(char *word);
+char	**word_splitter(char const *s);
+int	is_whitechar(char c);
+int	is_metachar(char c);
 
 #endif
