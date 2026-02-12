@@ -7,7 +7,8 @@ LDLFLAGS		= -L$(LIBFT_DIR) -lft -lreadline
 CC 				= cc
 CFLAGS 			= -Wall -Werror -Wextra -I.
 
-SRCS 			= src/minishell.c
+SRCS 			= src/minishell.c \
+						src/lexer/lexer.c
 OBJS 			= $(SRCS:%.c=%.o)
 
 all: $(LIBFT) $(NAME)

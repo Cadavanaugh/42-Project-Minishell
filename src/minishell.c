@@ -17,7 +17,7 @@ int main(int argc, char *argv[], char *env[])
     }
     if (*input)
       add_history(input);
-    printf("Você digitou: %s\n", input);
+    lexit(input);
     free(input);
   }
   return (0);

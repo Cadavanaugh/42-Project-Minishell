@@ -15,4 +15,7 @@
 # include <readline/history.h>
 //# include "builtins.h"
 
+void lexit(char *input);
+int array_length(char **array)
+
 #endif
