@@ -24,16 +24,16 @@ static t_token *create_token_list(char **str_tokens)
 static char were_quotes_closed(char *input)
 {
   int i;
-  int quote_count;
+  int double_quote_count;
   i = 0;
-  quote_count = 0;
+  double_quote_count = 0;
   while (input[i])
   {
     if (input[i] == '"')
-      quote_count++;
+      double_quote_count++;
     i++;
   }
-  return (quote_count % 2 == 0);
+  return (double_quote_count % 2 == 0);
 }
 
 void lexit(char *input)
