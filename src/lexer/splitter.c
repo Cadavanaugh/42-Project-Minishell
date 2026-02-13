@@ -16,7 +16,6 @@ static void	free_array(char **s)
 static char	*find_token_end(char *s)
 {
 	int	i;
-
 	i = 0;
 	if (is_metachar(s[i]))
 	{
@@ -66,7 +65,7 @@ static size_t	count_words(char *input)
 	count = 0;
 	while (*input)
 	{
-		while (*input && is_whitechar(*input))
+		while (is_whitechar(*input))
 			input++;
 		if (*input)
 		{
