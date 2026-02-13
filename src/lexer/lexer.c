@@ -1,5 +1,21 @@
 #include "../minishell.h"
 
+int	skip_quotes(char *s, int *i)
+{
+	char	quote;
+
+	quote = s[*i];
+	(*i)++;
+	while (s[*i] && s[*i] != quote)
+		(*i)++;
+	if (s[*i] == quote)
+	{
+		(*i)++;
+		return (1);
+	}
+	return (0);
+}
+
 static t_token *create_token_list(char **str_tokens)
 {
   size_t x;
