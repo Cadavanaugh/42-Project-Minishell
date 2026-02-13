@@ -29,31 +29,13 @@ t_token_type get_token_type(char *word)
     return WORD;
 }
 
-int	is_whitechar(char c)
+void    skip_quotes(char *s, int *i)
 {
-	if (c == ' ' || c == '\t' || c == '\n')
-		return (1);
-	return (0);
-}
-
-int	is_metachar(char c)
-{
-	if (c == '|' || c == '<' || c == '>')
-		return (1);
-	return (0);
-}
-
-int    is_quote_closed(char *s, int *i)
-{
-    char    quote;
-    quote = s[*i];
+  char    quote;
+  quote = s[*i];
+  (*i)++;
+  while (s[*i] && s[*i] != quote)
     (*i)++;
-    while (s[*i] && s[*i] != quote)
-      (*i)++;
-    if (s[*i] == quote)
-	{
-    	(*i)++;
-		return (1);
-	}
-	return (0);
+  if (s[*i] == quote)
+    (*i)++;
 }

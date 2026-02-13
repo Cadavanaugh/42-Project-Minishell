@@ -1,21 +1,5 @@
 #include "../minishell.h"
 
-int	skip_quotes(char *s, int *i)
-{
-	char	quote;
-
-	quote = s[*i];
-	(*i)++;
-	while (s[*i] && s[*i] != quote)
-		(*i)++;
-	if (s[*i] == quote)
-	{
-		(*i)++;
-		return (1);
-	}
-	return (0);
-}
-
 static t_token *create_token_list(char **str_tokens)
 {
   size_t x;
@@ -37,36 +21,46 @@ static t_token *create_token_list(char **str_tokens)
   return token_list;
 }
 
-int check_quotes(char *s)
+static char were_quotes_closed(char *input, size_t i)
 {
-  int i;
-  
-  i = 0;
-  while (s[i])
+  size_t double_quote_count;
+  size_t simple_quote_count;
+  char inside_double_quotes;
+  char inside_simple_quotes;
+  inside_double_quotes = 0;
+  inside_simple_quotes = 0;
+  simple_quote_count = 0;
+  double_quote_count = 0;
+  while (input[i])
   {
-    if (s[i] == '"' || s[i] == '\'')
+    if (input[i] == '"' && inside_simple_quotes == 0)
     {
-       if (!skip_quotes((s, &i))
-       {
-          write(2, "minishell: syntax error: unclosed\n", 41);
-          return (0);
-       }
+      double_quote_count++;
+      inside_double_quotes = boolean_invert(inside_double_quotes);
     }
-  else
-      i++;
-  return (1);
+    if (input[i] == '\'' && inside_double_quotes == 0)
+    {
+      simple_quote_count++;
+      inside_simple_quotes = boolean_invert(inside_simple_quotes);
+    }
+    i++;
+  }
+  return (double_quote_count % 2 == 0 && simple_quote_count % 2 == 0);
 }
 
 void lexit(char *input)
 {
-  if (!were_quotes_closed(input))
+  if (!were_quotes_closed(input, 0))
     printf("Aspas não fechadas\n");
   else {
     char **words;
     words = word_splitter(input);
-    (void)words;
     t_token *token_list;
     token_list = create_token_list(words);
+    for (int x = 0; x < array_length(words); x++)
+    {
+      printf("TYPE %d: %s\n", token_list[x].type, token_list[x].value);
+    }
     (void)token_list;
   }
 }
