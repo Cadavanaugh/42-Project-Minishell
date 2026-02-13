@@ -21,19 +21,24 @@ static t_token *create_token_list(char **str_tokens)
   return token_list;
 }
 
-static char were_quotes_closed(char *input)
+int check_quotes(char *s)
 {
   int i;
-  int quote_count;
+  
   i = 0;
-  quote_count = 0;
-  while (input[i])
+  while (s[i])
   {
-    if (input[i] == '"')
-      quote_count++;
-    i++;
-  }
-  return (quote_count % 2 == 0);
+    if (input[i] == '"' || s[i] == '\'')
+    {
+       if (!skip_quotes((s, &i))
+       {
+          write(2, "minishell: syntax error: unclosed\n", 41);
+          return (0);
+       }
+    }
+  else
+      i++;
+  return (1);
 }
 
 void lexit(char *input)
