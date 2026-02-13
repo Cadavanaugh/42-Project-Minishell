@@ -79,7 +79,6 @@ static size_t	count_words(char *input)
 	}
 	return (count);
 }
-// "ls''|grep !"!
 
 char	**word_splitter(char const *str)
 {
