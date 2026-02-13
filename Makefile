@@ -10,7 +10,8 @@ CFLAGS 			= -Wall -Werror -Wextra -I.
 SRCS 			= src/minishell.c \
 						src/lexer/lexer.c \
 						src/lexer/utils.c \
-						src/lexer/splitter.c
+						src/lexer/splitter.c \
+						src/universal_helpers/helpers.c
 OBJS 			= $(SRCS:%.c=%.o)
 
 all: $(LIBFT) $(NAME)
