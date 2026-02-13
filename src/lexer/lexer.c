@@ -44,7 +44,7 @@ int check_quotes(char *s)
   i = 0;
   while (s[i])
   {
-    if (input[i] == '"' || s[i] == '\'')
+    if (s[i] == '"' || s[i] == '\'')
     {
        if (!skip_quotes((s, &i))
        {
