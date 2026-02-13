@@ -43,7 +43,6 @@ void lexit(char *input)
   else {
     char **words;
     words = word_splitter(input);
-    (void)words;
     t_token *token_list;
     token_list = create_token_list(words);
     (void)token_list;
