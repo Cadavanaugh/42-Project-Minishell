@@ -37,7 +37,7 @@ t_token_type get_token_type(char *word);
 char	**word_splitter(char const *s);
 char	is_whitechar(char c);
 char	is_metachar(char c);
-void    skip_quotes(char *s, int *i);
+void    skip_until_next_quote(char *s, int *i);
 char boolean_invert(char bool);
 
 #endif

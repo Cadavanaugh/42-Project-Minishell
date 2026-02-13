@@ -29,7 +29,7 @@ t_token_type get_token_type(char *word)
     return WORD;
 }
 
-void    skip_quotes(char *s, int *i)
+void    skip_until_next_quote(char *s, int *i)
 {
   char    quote;
   quote = s[*i];

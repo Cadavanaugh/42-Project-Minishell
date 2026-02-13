@@ -26,7 +26,10 @@ static char	*find_token_end(char *s)
 	while (s[i] && !is_whitechar(s[i]) && !is_metachar(s[i]))
 	{
 		if (s[i] == '"' || s[i] == '\'')
-			skip_quotes(s, &i);
+		{
+			skip_until_next_quote(s, &i);
+			break;
+		}
 		else
 			i++;
 	}
@@ -76,6 +79,7 @@ static size_t	count_words(char *input)
 	}
 	return (count);
 }
+// "ls''|grep !"!
 
 char	**word_splitter(char const *str)
 {
