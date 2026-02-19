@@ -31,7 +31,7 @@ typedef struct s_token
   t_token_type    type;   // O tipo (ex: WORD)
 }   t_token;
 
-void lexit(char *input);
+t_token *lexit(char *input);
 int array_length(char **array);
 t_token_type get_token_type(char *word);
 char	**word_splitter(char const *s);

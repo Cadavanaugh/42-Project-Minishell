@@ -48,7 +48,7 @@ static char were_quotes_closed(char *input, size_t i)
   return (double_quote_count % 2 == 0 && simple_quote_count % 2 == 0);
 }
 
-void lexit(char *input)
+t_token *lexit(char *input)
 {
   if (!were_quotes_closed(input, 0))
     printf("Aspas não fechadas\n");
@@ -61,6 +61,7 @@ void lexit(char *input)
     {
       printf("TYPE %d: %s\n", token_list[x].type, token_list[x].value);
     }
-    (void)token_list;
+    return token_list;
   }
+  return NULL;
 }
