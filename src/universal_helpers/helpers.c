@@ -16,3 +16,23 @@ inline char  is_metachar(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }
+
+char is_command(char *input)
+{
+  if (ft_strncmp(input, "cd", ft_strlen(input)) == 0)
+    return 1;
+  else if (ft_strncmp(input, "pwd", ft_strlen(input)) == 0)
+    return 1;
+  else if (ft_strncmp(input, "export", ft_strlen(input)) == 0)
+    return 1;
+  else if (ft_strncmp(input, "unset", ft_strlen(input)) == 0)
+    return 1;
+  else if (ft_strncmp(input, "echo", ft_strlen(input)) == 0)
+    return 1;
+  else if (ft_strncmp(input, "env", ft_strlen(input)) == 0)
+    return 1;
+  else if (ft_strncmp(input, "exit", ft_strlen(input)) == 0)
+    return 1;
+  else
+    return 0;
+}
