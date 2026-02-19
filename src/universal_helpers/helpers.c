@@ -1,9 +1,9 @@
 #include "../minishell.h"
 
-char boolean_invert(char bool)
+char boolean_invert(char value)
 {
-  if (bool == 0) return 1;
-  else if (bool == 1) return 0;
+  if (value == 0) return 1;
+  else if (value == 1) return 0;
   return 2;
 }
 
