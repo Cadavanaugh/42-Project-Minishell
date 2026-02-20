@@ -6,7 +6,7 @@ static t_token *create_token_list(char **str_tokens)
   size_t length;
   t_token *token_list;
   length = array_length(str_tokens);
-  token_list = malloc(length * sizeof(t_token));
+  token_list = ft_calloc(sizeof(t_token), length + 1); //adicionar o espaço para o token de "null"
   if (!token_list)
     return 0;
   x = 0;

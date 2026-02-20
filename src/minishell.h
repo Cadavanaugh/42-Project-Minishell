@@ -31,6 +31,20 @@ typedef struct s_token
   t_token_type    type;   // O tipo (ex: WORD)
 }   t_token;
 
+typedef struct s_redir
+{
+	t_token_type			 	type;	   // Tipo (REDIR_IN, REDIR_OUT, etc.)
+	char			*target;	  // Nome do arquivo ou delimitador (se for heredoc)
+	struct s_redir  *next;
+}   t_redir;
+
+typedef struct s_cmd
+{
+	char			**args;// O comando e argumentos para execve (ex: "ls", "-la", NULL)
+	t_redir			*redirs;// Lista de entradas/saídas deste comando
+	struct s_cmd	*next;// Próximo comando (se houver PIPE)
+}   t_cmd;
+
 t_token *lexit(char *input);
 int array_length(char **array);
 t_token_type get_token_type(char *word);
@@ -39,6 +53,8 @@ char	is_whitechar(char c);
 char	is_metachar(char c);
 void    skip_until_next_quote(char *s, int *i);
 char boolean_invert(char value);
+t_cmd *parser(t_token *token_list);
 char is_command(char *input);
+void debug_shell(t_cmd *head);
 
 #endif

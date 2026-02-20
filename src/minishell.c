@@ -18,9 +18,17 @@ int main(int argc, char *argv[], char *env[])
     if (*input)
       add_history(input);
     token_list = lexit(input);
-    parsit(token_list);
+    t_cmd   *node;
+    node = parser(token_list);
+    if (node)
+    {
+      printf("\n--- DEBUGZINHO DO PARSER ---\n");
+      debug_shell(node);
+    }
+    (void)node;
     free(input);
     free(token_list);
   }
   return (0);
 }
+// ls -la >> a.txt > grep
