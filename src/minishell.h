@@ -45,6 +45,13 @@ typedef struct s_cmd
 	struct s_cmd	*next;// Próximo comando (se houver PIPE)
 }   t_cmd;
 
+typedef struct s_minishell
+{
+  char    **envs; //a memória do sistema
+  int     last_status; //guarda os códigos de saída, útil para o $?
+  struct  s_cmd *cmd_list; //retorno do parser
+} t_ms;
+
 t_token *lexit(char *input);
 int array_length(char **array);
 t_token_type get_token_type(char *word);
@@ -56,5 +63,7 @@ char boolean_invert(char value);
 t_cmd *parser(t_token *token_list);
 char is_command(char *input);
 void debug_shell(t_cmd *head);
+void expand_variables(t_cmd *head, char **envs);
+
 
 #endif

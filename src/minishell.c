@@ -1,12 +1,11 @@
 #include "minishell.h"
 
-int main(int argc, char *argv[], char *env[])
+int main(int argc, char *argv[], char *envs[])
 {
   char  *input;
   t_token *token_list;
   (void)argc;
   (void)argv;
-  (void)env;
   while (1)
   {
     input = readline("minishell$ ");
@@ -20,6 +19,7 @@ int main(int argc, char *argv[], char *env[])
     token_list = lexit(input);
     t_cmd   *node;
     node = parser(token_list);
+    expand_variables(node, envs);
     if (node)
     {
       printf("\n--- DEBUGZINHO DO PARSER ---\n");
