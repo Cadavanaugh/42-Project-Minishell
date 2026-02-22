@@ -1,11 +1,14 @@
 #include "../minishell.h"
 
-void store_envs(t_ms *shell, char **envs)
+static void store_envs(t_ms *shell, char **envs)
 {
   int i;
   i = 0;
-  while (envs[i++]);
+  while (envs[i])
+    i++;
   shell->envs = ft_calloc(sizeof(char *), i + 1);
+  if (!shell->envs)
+    return;
   i = 0;
   while (envs[i])
   {
