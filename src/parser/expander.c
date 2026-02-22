@@ -17,10 +17,54 @@ static void store_envs(t_ms *shell, char **envs)
   }
 }
 
-void expand_variables(t_cmd *parser_head_node, char **envs)
+static void mount_string(t_ms *shell, int i, int j, int inicio, int breakpoint)
+{
+  char *before_chunk;
+  char *after_chunk;
+  char *var_value;
+  before_chunk = ft_substr(shell->cmd_list->args[j], 1, inicio - 1);
+  var_value = get_env_val(ft_substr(shell->cmd_list->args[j], inicio + 1, breakpoint - inicio + 1), shell);
+  after_chunk = ft_substr(shell->cmd_list->args[j], breakpoint + 1, (i - 1) - (breakpoint + 1));
+  printf("Result: %s%s%s\n", before_chunk, var_value, after_chunk);
+} // echo "hello $USER tal"
+
+static void rebuild_expanded(t_ms *shell, int i, int j)
+{
+  int inicio;
+  int breakpoint;
+  inicio = i;
+  while (shell->cmd_list->args[j][i + 1] && shell->cmd_list->args[j][i + 1] != ' ' && shell->cmd_list->args[j][i + 1] != '"')
+    i++;
+  breakpoint = i;
+  while (shell->cmd_list->args[j][i])
+    i++;
+  mount_string(shell, i, j, inicio, breakpoint);
+}
+
+static void expand_variables(t_ms *shell, int i, int j)
+{
+  char inside_double_quote;
+  inside_double_quote = 0;
+  while (shell->cmd_list->args[j])
+  {
+    i = 0;
+    while (shell->cmd_list->args[j][i])
+    {
+      if (shell->cmd_list->args[j][i] == '"')
+        inside_double_quote = boolean_invert(inside_double_quote);
+      else if (shell->cmd_list->args[j][i] == '$' && inside_double_quote)
+        rebuild_expanded(shell, i, j);
+      i++;
+    }
+    j++;
+  }
+}
+
+void expander(t_cmd *parser_head_node, char **envs)
 {
   t_ms *shell = ft_calloc(sizeof(t_ms *), 2);
   store_envs(shell, envs);
   shell->cmd_list = parser_head_node;
   shell->last_status = 0;
+  expand_variables(shell, 0, 0);
 }
