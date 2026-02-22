@@ -12,6 +12,7 @@ SRCS 			= src/minishell.c \
 						src/lexer/utils.c \
 						src/lexer/splitter.c \
 						src/universal_helpers/helpers.c \
+						src/universal_helpers/env_helpers.c \
 						src/parser/parser.c \
 						src/parser/expander.c
 OBJS 			= $(SRCS:%.c=%.o)
