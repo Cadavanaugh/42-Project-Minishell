@@ -63,6 +63,7 @@ static void expand_variables(t_ms *shell, int i, int j)
         inside_simple_quote = boolean_invert(inside_simple_quote);
       else if (shell->cmd_list->args[j][i] == '$' && !inside_simple_quote)
         rebuild_string(shell, i, j);
+      // TO-DO tratar $? pra expandir pra o último valor de retorno (do que foi executado antes)
       i++;
     }
     if (ft_strchr(shell->cmd_list->args[j], '"') || ft_strchr(shell->cmd_list->args[j], '\''))
@@ -78,4 +79,7 @@ void expander(t_cmd *parser_head_node, char **envs)
   shell->cmd_list = parser_head_node;
   shell->last_status = 0;
   expand_variables(shell, 0, 0);
+  int i = 0;
+  while (shell->envs[i])
+    printf("%s\n", shell->envs[i++]);
 }
