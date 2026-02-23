@@ -67,7 +67,6 @@ static void expand_variables(t_ms *shell, int i, int j)
     }
     if (ft_strchr(shell->cmd_list->args[j], '"'))
       shell->cmd_list->args[j] = remove_quotes(shell->cmd_list->args[j]);
-    printf("%s\n", shell->cmd_list->args[j]);
     j++;
   }
 }
