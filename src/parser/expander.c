@@ -22,11 +22,20 @@ static void mount_string(t_ms *shell, int i, int j, int inicio, int breakpoint)
   char *before_chunk;
   char *after_chunk;
   char *var_value;
+  char *temp;
+  char *result;
   before_chunk = ft_substr(shell->cmd_list->args[j], 1, inicio - 1);
-  var_value = get_env_val(ft_substr(shell->cmd_list->args[j], inicio + 1, breakpoint - inicio + 1), shell);
+  var_value = get_env_val(ft_substr(shell->cmd_list->args[j], inicio + 1, breakpoint - inicio), shell);
+  if (!var_value)
+    var_value = ft_strdup("");
   after_chunk = ft_substr(shell->cmd_list->args[j], breakpoint + 1, (i - 1) - (breakpoint + 1));
-  printf("Result: %s%s%s\n", before_chunk, var_value, after_chunk);
-} // echo "hello $USER tal"
+  temp = ft_strjoin(before_chunk, var_value);
+  result = ft_strjoin(temp, after_chunk);
+  printf("Result: %s\n", result);
+  free(temp);
+  free(before_chunk);
+  free(after_chunk);
+} // echo "hello $USER que usa $SHELL"
 
 static void rebuild_expanded(t_ms *shell, int i, int j)
 {
