@@ -24,20 +24,20 @@ static void mount_string(t_ms *shell, int i, int j, int inicio, int breakpoint)
   char *var_value;
   char *temp;
   char *result;
-  before_chunk = ft_substr(shell->cmd_list->args[j], 1, inicio - 1);
+  before_chunk = ft_substr(shell->cmd_list->args[j], 0, inicio);
   var_value = get_env_val(ft_substr(shell->cmd_list->args[j], inicio + 1, breakpoint - inicio), shell);
   if (!var_value)
     var_value = ft_strdup("");
-  after_chunk = ft_substr(shell->cmd_list->args[j], breakpoint + 1, (i - 1) - (breakpoint + 1));
+  after_chunk = ft_substr(shell->cmd_list->args[j], breakpoint + 1, i - breakpoint + 1);
   temp = ft_strjoin(before_chunk, var_value);
   result = ft_strjoin(temp, after_chunk);
-  printf("Result: %s\n", result);
+  shell->cmd_list->args[j] = result;
   free(temp);
   free(before_chunk);
   free(after_chunk);
-} // echo "hello $USER que usa $SHELL"
+} // echo "hello $USER que usa TERMINAL $SHELL COLOR $TERM e ARQ $HOSTTYPE aaaaa"
 
-static void rebuild_expanded(t_ms *shell, int i, int j)
+static void rebuild_string(t_ms *shell, int i, int j)
 {
   int inicio;
   int breakpoint;
@@ -62,9 +62,12 @@ static void expand_variables(t_ms *shell, int i, int j)
       if (shell->cmd_list->args[j][i] == '"')
         inside_double_quote = boolean_invert(inside_double_quote);
       else if (shell->cmd_list->args[j][i] == '$' && inside_double_quote)
-        rebuild_expanded(shell, i, j);
+        rebuild_string(shell, i, j);
       i++;
     }
+    if (ft_strchr(shell->cmd_list->args[j], '"'))
+      shell->cmd_list->args[j] = remove_quotes(shell->cmd_list->args[j]);
+    printf("%s\n", shell->cmd_list->args[j]);
     j++;
   }
 }

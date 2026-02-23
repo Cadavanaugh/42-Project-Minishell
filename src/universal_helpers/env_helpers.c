@@ -35,3 +35,15 @@ void clean_ms(t_ms *shell)
     free(shell->envs);
   }
 }
+
+char *remove_quotes(char *input)
+{
+  int len;
+  len = ft_strlen(input);
+  char *no_quotes;
+  no_quotes = ft_calloc(sizeof(char), ((len - 2) + 1));
+  if (!no_quotes)
+    return NULL;
+  no_quotes = ft_substr(input, 1, len - 2);
+  return (no_quotes);
+}
