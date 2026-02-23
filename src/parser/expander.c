@@ -52,20 +52,20 @@ static void rebuild_string(t_ms *shell, int i, int j)
 
 static void expand_variables(t_ms *shell, int i, int j)
 {
-  char inside_double_quote;
-  inside_double_quote = 0;
+  char inside_simple_quote;
+  inside_simple_quote = 0;
   while (shell->cmd_list->args[j])
   {
     i = 0;
     while (shell->cmd_list->args[j][i])
     {
-      if (shell->cmd_list->args[j][i] == '"')
-        inside_double_quote = boolean_invert(inside_double_quote);
-      else if (shell->cmd_list->args[j][i] == '$' && inside_double_quote)
+      if (shell->cmd_list->args[j][i] == '\'')
+        inside_simple_quote = boolean_invert(inside_simple_quote);
+      else if (shell->cmd_list->args[j][i] == '$' && !inside_simple_quote)
         rebuild_string(shell, i, j);
       i++;
     }
-    if (ft_strchr(shell->cmd_list->args[j], '"'))
+    if (ft_strchr(shell->cmd_list->args[j], '"') || ft_strchr(shell->cmd_list->args[j], '\''))
       shell->cmd_list->args[j] = remove_quotes(shell->cmd_list->args[j]);
     j++;
   }
