@@ -11,9 +11,13 @@ char *get_env_val(char *name, t_ms *shell)
     while (shell->envs[i])
     {
       if (ft_strncmp(shell->envs[i], name, len) == 0 && shell->envs[i][len] == '=')
+      {
+        free(name);
         return (shell->envs[i] + len + 1);
+      }
       i++;
     }
+    free(name);
     return (NULL);
 }
 
