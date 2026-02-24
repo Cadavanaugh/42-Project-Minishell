@@ -2,11 +2,9 @@
 
 static char **get_path_dirs(t_ms *shell)
 {
-  char *name;
   char *path;
   char **splitted_path;
-  name = ft_strdup("PATH");
-  path = get_env_val(name, shell);
+  path = get_env_val("PATH", shell);
   splitted_path = ft_split(path, ':');
   if (!splitted_path)
     return NULL;
