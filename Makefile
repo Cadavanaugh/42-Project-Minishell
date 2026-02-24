@@ -14,7 +14,8 @@ SRCS 			= src/minishell.c \
 						src/universal_helpers/helpers.c \
 						src/universal_helpers/env_helpers.c \
 						src/parser/parser.c \
-						src/parser/expander.c
+						src/parser/expander.c \
+						src/executor/executor.c
 OBJS 			= $(SRCS:%.c=%.o)
 
 all: $(LIBFT) $(NAME)

@@ -26,7 +26,7 @@ int main(int argc, char *argv[], char *envs[])
       printf("\n--- DEBUGZINHO DO PARSER ---\n");
       debug_shell(node);
     }
-    (void)node;
+    executor(shell);
     free(input);
     free(token_list);
   }

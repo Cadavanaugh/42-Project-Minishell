@@ -47,3 +47,11 @@ char *remove_quotes(char *input)
   no_quotes = ft_substr(input, 1, len - 2);
   return (no_quotes);
 }
+
+void free_matrix(char **m)
+{
+    int i = 0;
+    while (m && m[i])
+      free(m[i++]);
+    free(m);
+}

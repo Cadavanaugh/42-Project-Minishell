@@ -5,7 +5,7 @@
 # include <stdlib.h>
 # include "../libs/libft/libft.h"
 //# include <signal.h>
-//# include <unistd.h>
+# include <unistd.h>
 //# include <sys/types.h>
 //# include <dirent.h>
 //# include <string.h>
@@ -67,5 +67,7 @@ t_ms *expander(t_cmd *head, char **envs);
 char *get_env_val(char *name, t_ms *shell);
 void clean_ms(t_ms *shell);
 char *remove_quotes(char *input);
+void executor(t_ms *shell);
+void free_matrix(char **m);
 
 #endif
