@@ -21,12 +21,13 @@ int main(int argc, char *argv[], char *envs[])
     t_cmd   *node;
     node = parser(token_list);
     shell = expander(node, envs);
-    if (node)
-    {
-      printf("\n--- DEBUGZINHO DO PARSER ---\n");
-      debug_shell(node);
-    }
+    // if (node)
+    // {
+    //   printf("\n--- DEBUGZINHO DO PARSER ---\n");
+    //   debug_shell(node);
+    // }
     executor(shell);
+    envs = shell->envs;
     free(input);
     free(token_list);
   }
