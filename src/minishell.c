@@ -4,6 +4,7 @@ int main(int argc, char *argv[], char *envs[])
 {
   char  *input;
   t_token *token_list;
+  t_ms *shell;
   (void)argc;
   (void)argv;
   while (1)
