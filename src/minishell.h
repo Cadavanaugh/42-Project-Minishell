@@ -63,7 +63,7 @@ char boolean_invert(char value);
 t_cmd *parser(t_token *token_list);
 char is_command(char *input);
 void debug_shell(t_cmd *head);
-void expander(t_cmd *head, char **envs);
+t_ms *expander(t_cmd *head, char **envs);
 char *get_env_val(char *name, t_ms *shell);
 void clean_ms(t_ms *shell);
 char *remove_quotes(char *input);

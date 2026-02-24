@@ -19,7 +19,7 @@ int main(int argc, char *argv[], char *envs[])
     token_list = lexit(input);
     t_cmd   *node;
     node = parser(token_list);
-    expander(node, envs);
+    shell = expander(node, envs);
     if (node)
     {
       printf("\n--- DEBUGZINHO DO PARSER ---\n");

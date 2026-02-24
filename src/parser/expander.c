@@ -72,14 +72,12 @@ static void expand_variables(t_ms *shell, int i, int j)
   }
 }
 
-void expander(t_cmd *parser_head_node, char **envs)
+t_ms * expander(t_cmd *parser_head_node, char **envs)
 {
   t_ms *shell = ft_calloc(sizeof(t_ms *), 2);
   store_envs(shell, envs);
   shell->cmd_list = parser_head_node;
   shell->last_status = 0;
   expand_variables(shell, 0, 0);
-  int i = 0;
-  while (shell->envs[i])
-    printf("%s\n", shell->envs[i++]);
+  return shell;
 }
