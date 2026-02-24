@@ -17,7 +17,7 @@ inline char  is_metachar(char c)
 	return (c == '|' || c == '<' || c == '>');
 }
 
-char is_command(char *input)
+char is_builtin(char *input)
 {
   if (ft_strncmp(input, "cd", ft_strlen(input)) == 0)
     return 1;

@@ -36,13 +36,36 @@ static char *get_full_command_path(char *cmd, char  **path_dirs)
     return (NULL);
 }
 
+void call_builtins(t_ms *shell)
+{
+  char cwd[PATH_MAX];
+  if (ft_strncmp(shell->cmd_list->args[0], "pwd", 3) == 0)
+    printf("%s\n", getcwd(cwd, sizeof(cwd)));
+  else if (ft_strncmp(shell->cmd_list->args[0], "echo", 4) == 0)
+    builtin_echo(shell->cmd_list->args);
+  else if (ft_strncmp(shell->cmd_list->args[0], "env", 3) == 0)
+    builtin_env(shell->envs);
+  else if (ft_strncmp(shell->cmd_list->args[0], "cd", 2) == 0)
+    builtin_cd(shell->cmd_list->args, shell);
+  // else if (ft_strncmp(args[0], "export", 6) == 0)
+  //   // builtin_export();
+  // else if (ft_strncmp(args[0], "unset", 5) == 0)
+  //   // builtin_unset();
+  // else if (ft_strncmp(args[0], "exit", 4) == 0)
+  //   // builtin_exit();
+}
+
 void executor(t_ms *shell)
 {
   char **path_dirs;
   char *command_path;
-  path_dirs = get_path_dirs(shell);
-  command_path = get_full_command_path(shell->cmd_list->args[0], path_dirs);
-  free_matrix(path_dirs);
-  printf("%s\n", command_path);
+  if (is_builtin(shell->cmd_list->args[0]))
+    call_builtins(shell);
+  else {
+    path_dirs = get_path_dirs(shell);
+    command_path = get_full_command_path(shell->cmd_list->args[0], path_dirs);
+    free_matrix(path_dirs);
+    (void)command_path;
+  }
 }
 

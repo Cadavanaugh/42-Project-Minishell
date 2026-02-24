@@ -16,7 +16,10 @@ SRCS 			= src/minishell.c \
 						src/universal_helpers/cleaners.c \
 						src/parser/parser.c \
 						src/parser/expander.c \
-						src/executor/executor.c
+						src/executor/executor.c \
+						src/executor/builtins/echo.c \
+						src/executor/builtins/env.c \
+						src/executor/builtins/cd.c
 OBJS 			= $(SRCS:%.c=%.o)
 
 all: $(LIBFT) $(NAME)
