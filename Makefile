@@ -13,6 +13,7 @@ SRCS 			= src/minishell.c \
 						src/lexer/splitter.c \
 						src/universal_helpers/helpers.c \
 						src/universal_helpers/env_helpers.c \
+						src/universal_helpers/cleaners.c \
 						src/parser/parser.c \
 						src/parser/expander.c \
 						src/executor/executor.c
