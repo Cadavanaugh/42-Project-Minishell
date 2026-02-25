@@ -27,7 +27,7 @@ static char *create_env_string(const char *key, char *value)
     return (full);
 }
 
-static char **reallocate_env(char **old_envs, char *new_entry)
+static char **reallocate_env(char *old_envs[], char *new_entry)
 {
     int     i;
     char    **new_envs;
@@ -44,7 +44,7 @@ static char **reallocate_env(char **old_envs, char *new_entry)
         new_envs[i] = old_envs[i];
         i++;
     }
-    new_envs[i] = ft_strdup(new_entry); // <--- AQUI ADICIONAMOS A NOVA (ex: OLDPWD)
+    new_envs[i] = new_entry; // <--- AQUI ADICIONAMOS A NOVA (ex: OLDPWD)
     new_envs[i + 1] = NULL;
     free(old_envs); // Limpa apenas o "envelope" antigo
     return (new_envs);
@@ -71,7 +71,6 @@ void update_env_val(const char *key, char *value, t_ms *shell)
         i++;
     }
     shell->envs = reallocate_env(shell->envs, new_entry);
-    free(new_entry);
 }
 
 char *remove_quotes(char *input)
