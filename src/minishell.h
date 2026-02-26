@@ -74,5 +74,6 @@ void free_matrix(char **m);
 void builtin_echo(char **args);
 void builtin_env(char **envs);
 void builtin_cd(char **args, t_ms *shell);
+void builtin_unset(char ***envs, char *name);
 
 #endif
