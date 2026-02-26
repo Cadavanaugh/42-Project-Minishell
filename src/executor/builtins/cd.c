@@ -8,7 +8,7 @@ void builtin_cd(char **args, t_ms *shell)
     oldpwd = getcwd(cwd, sizeof(cwd));
     if (!args[1])
         dest = get_env_val("HOME", shell);
-    else if (ft_strncmp(args[1], "-", 1) == 0 && !(args[2]))
+    else if (ft_strncmp(args[1], "-", 1) == 0 && !args[1][1])
         dest = get_env_val("OLDPWD", shell);
     else
 		dest = args[1];
