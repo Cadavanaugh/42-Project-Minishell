@@ -27,10 +27,7 @@ void builtin_unset(char ***envs, char *name)
   while((*envs)[i])
   {
     if (ft_strncmp((*envs)[i], name, ft_strlen(name)) == 0)
-    {
       i++;
-      continue;
-    }
     new_envs[j] = (*envs)[i];
     i++;
     j++;
