@@ -57,10 +57,6 @@ t_token *lexit(char *input)
     words = word_splitter(input);
     t_token *token_list;
     token_list = create_token_list(words);
-    for (int x = 0; x < array_length(words); x++)
-    {
-      printf("TYPE %d: %s\n", token_list[x].type, token_list[x].value);
-    }
     return token_list;
   }
   return NULL;
