@@ -49,8 +49,8 @@ void call_builtins(t_ms *shell)
     builtin_cd(shell->cmd_list->args, shell);
   // else if (ft_strncmp(args[0], "export", 6) == 0)
   //   // builtin_export();
-  // else if (ft_strncmp(args[0], "unset", 5) == 0)
-  //   // builtin_unset();
+  else if (ft_strncmp(shell->cmd_list->args[0], "unset", 5) == 0)
+    builtin_unset(&shell->envs, shell->cmd_list->args[1]);
   else if (ft_strncmp(shell->cmd_list->args[0], "exit", 4) == 0)
     exit(0);
 }
@@ -68,4 +68,3 @@ void executor(t_ms *shell)
     (void)command_path;
   }
 }
-
