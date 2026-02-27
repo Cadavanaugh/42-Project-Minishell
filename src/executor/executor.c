@@ -55,22 +55,36 @@ static void call_builtins(t_ms *shell)
     exit(0);
 }
 
+static void init_subprocess(t_ms *shell, char *cmd)
+{
+  int file;
+  if (shell->cmd_list->redirs)
+  {
+    if (shell->cmd_list->redirs->type == REDIRECT_OUT)
+      file = open(shell->cmd_list->redirs->target, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    else if (shell->cmd_list->redirs->type == REDIRECT_APPEND)
+      file = open(shell->cmd_list->redirs->target, O_CREAT | O_WRONLY | O_APPEND, 0644);
+    if (file < 0)
+    {
+      perror("open");
+      exit(EXIT_FAILURE);
+    }
+    dup2(file, STDOUT_FILENO);
+    close(file);
+  }
+  execvp(cmd, shell->cmd_list->args);
+  perror("execvp");
+  exit(EXIT_FAILURE);
+}
+
 static void call_path(t_ms *shell, char *cmd)
 {
   int return_status_code;
   int return_status;
   pid_t child_pid;
-  int file;
   child_pid = fork();
   if (child_pid == 0)
-  {
-    if (shell->cmd_list->redirs && shell->cmd_list->redirs->type == REDIRECT_OUT)
-    {
-      file = open(shell->cmd_list->redirs->target, O_CREAT | O_WRONLY, 0777);
-      dup2(file, STDOUT_FILENO);
-    }
-    execvp(cmd, shell->cmd_list->args);
-  }
+    init_subprocess(shell, cmd);
   waitpid(child_pid, &return_status, 0);
   if (WIFEXITED(return_status)) {
     return_status_code = WEXITSTATUS(return_status);
