@@ -19,7 +19,6 @@ static void mount_string(t_ms *shell, int i, int j, int inicio, int breakpoint)
   result = ft_strjoin(temp, after_chunk);
   shell->cmd_list->args[j] = result;
   free(temp);
-  free(var_value);
   free(before_chunk);
   free(after_chunk);
 } // echo "hello $USER que usa TERMINAL $SHELL COLOR $TERM e ARQ $HOSTTYPE aaaaa"
@@ -54,7 +53,6 @@ void expander(t_ms *shell)
         inside_simple_quote = boolean_invert(inside_simple_quote);
       else if (shell->cmd_list->args[j][i] == '$' && !inside_simple_quote)
         rebuild_string(shell, i, j);
-      // TO-DO tratar $? pra expandir pra o último valor de retorno (do que foi executado antes)
       i++;
     }
     if (ft_strchr(shell->cmd_list->args[j], '"') || ft_strchr(shell->cmd_list->args[j], '\''))
@@ -62,4 +60,3 @@ void expander(t_ms *shell)
     j++;
   }
 }
-
