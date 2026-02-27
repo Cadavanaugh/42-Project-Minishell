@@ -57,20 +57,10 @@ static void call_builtins(t_ms *shell)
 
 static void init_subprocess(t_ms *shell, char *cmd)
 {
-  int file;
   if (shell->cmd_list->redirs)
   {
-    if (shell->cmd_list->redirs->type == REDIRECT_OUT)
-      file = open(shell->cmd_list->redirs->target, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-    else if (shell->cmd_list->redirs->type == REDIRECT_APPEND)
-      file = open(shell->cmd_list->redirs->target, O_CREAT | O_WRONLY | O_APPEND, 0644);
-    if (file < 0)
-    {
-      perror("open");
+    if (apply_redirects(shell->cmd_list) < 0)
       exit(EXIT_FAILURE);
-    }
-    dup2(file, STDOUT_FILENO);
-    close(file);
   }
   execvp(cmd, shell->cmd_list->args);
   perror("execvp");
@@ -103,5 +93,6 @@ void executor(t_ms *shell)
     command_path = get_full_command_path(shell->cmd_list->args[0], path_dirs);
     free_matrix(path_dirs);
     call_path(shell, command_path);
+    free(command_path);
   }
 }
