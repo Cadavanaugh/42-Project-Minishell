@@ -36,7 +36,7 @@ static char *get_full_command_path(char *cmd, char  **path_dirs)
     return (NULL);
 }
 
-void call_builtins(t_ms *shell)
+static void call_builtins(t_ms *shell)
 {
   char cwd[PATH_MAX];
   if (ft_strncmp(shell->cmd_list->args[0], "pwd", 3) == 0)
