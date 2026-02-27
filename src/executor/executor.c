@@ -60,9 +60,17 @@ static void call_path(t_ms *shell, char *cmd)
   int return_status_code;
   int return_status;
   pid_t child_pid;
+  int file;
   child_pid = fork();
   if (child_pid == 0)
+  {
+    if (shell->cmd_list->redirs && shell->cmd_list->redirs->type == REDIRECT_OUT)
+    {
+      file = open(shell->cmd_list->redirs->target, O_CREAT | O_WRONLY, 0777);
+      dup2(file, STDOUT_FILENO);
+    }
     execvp(cmd, shell->cmd_list->args);
+  }
   waitpid(child_pid, &return_status, 0);
   if (WIFEXITED(return_status)) {
     return_status_code = WEXITSTATUS(return_status);
@@ -79,7 +87,7 @@ void executor(t_ms *shell)
   else {
     path_dirs = get_path_dirs(shell);
     command_path = get_full_command_path(shell->cmd_list->args[0], path_dirs);
-    call_path(shell, command_path);
     free_matrix(path_dirs);
+    call_path(shell, command_path);
   }
 }

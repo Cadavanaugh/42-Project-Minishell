@@ -8,7 +8,7 @@
 # include <unistd.h>
 //# include <sys/types.h>
 //# include <dirent.h>
-//# include <string.h>
+# include <fcntl.h>
 //# include <termios.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
