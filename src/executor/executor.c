@@ -64,6 +64,10 @@ void executor(t_ms *shell)
   else {
     path_dirs = get_path_dirs(shell);
     command_path = get_full_command_path(shell->cmd_list->args[0], path_dirs);
+    int child_id = fork();
+    if (child_id == 0)
+      execvp(command_path, shell->cmd_list->args);
+    wait(NULL);
     free_matrix(path_dirs);
     (void)command_path;
   }
