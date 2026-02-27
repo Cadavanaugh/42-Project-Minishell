@@ -1,16 +1,20 @@
 #include "../../minishell.h"
 
-void builtin_env(char **envs)
+void builtin_env(t_ms *shell)
 {
   int i = 0;
-  if (!envs)
-    return;
-  while(envs[i])
+  if (!shell || !shell->envs)
   {
-    write(1, envs[i], ft_strlen(envs[i]));
+    shell->last_status = 1;
+    return;
+  }
+  while(shell->envs[i])
+  {
+    write(1, shell->envs[i], ft_strlen(shell->envs[i]));
     write(1, "\n", 1);
     i++;
   }
+  shell->last_status = 0;
 }
 
 static char does_env_exist(char **envs, char *name)
