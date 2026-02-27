@@ -63,7 +63,6 @@ char boolean_invert(char value);
 t_cmd *parser(t_token *token_list);
 char is_builtin(char *input);
 t_ms *create_shell_instance(char **envs);
-void debug_shell(t_cmd *head);
 void expander(t_ms *shell);
 char *get_env_val(const char *name, t_ms *shell);
 void update_env_val(const char *key, char *value, t_ms *shell);

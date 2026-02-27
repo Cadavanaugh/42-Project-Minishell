@@ -62,29 +62,6 @@ static void parse_token_to_cmd(t_token *token_list, t_cmd *cmd, int *i)
   }
   cmd->args[args_id] = NULL; //coloca o fim da array
 }
-void debug_shell(t_cmd *head)
-{
-    t_cmd *c = head;
-    int i = 0;
-
-    while (c)
-    {
-        printf("\n=== COMANDO [%d] ===\n", i++);
-        // Print de Argumentos
-        for (int j = 0; c->args && c->args[j]; j++)
-            printf("  arg[%d]: %s\n", j, c->args[j]);
-        
-        // Print de Redirecionamentos
-        t_redir *r = c->redirs;
-        while (r)
-        {
-            printf("  REDIR: [Tipo %d] -> [Alvo: %s]\n", r->type, r->target);
-            r = r->next;
-        }
-        c = c->next;
-    }
-    printf("====================\n");
-}
 
 t_cmd *parser(t_token *token_list)
 {

@@ -22,11 +22,6 @@ int main(int argc, char *argv[], char *envs[])
     free(input);
     shell->cmd_list = parser(token_list);
     free(token_list);
-    // if (node)
-    // {
-    //   printf("\n--- DEBUGZINHO DO PARSER ---\n");
-    //   debug_shell(node);
-    // }
     expander(shell);
     executor(shell);
   }
