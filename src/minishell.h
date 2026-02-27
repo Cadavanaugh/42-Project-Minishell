@@ -73,7 +73,7 @@ char *remove_quotes(char *input);
 void executor(t_ms *shell);
 void free_matrix(char **m);
 void builtin_echo(t_ms *shell);
-void builtin_env(char **envs);
+void builtin_env(t_ms *shell);
 void builtin_cd(char **args, t_ms *shell);
 void builtin_export(char **args, t_ms *shell);
 void builtin_unset(t_ms *shell, char *name);
