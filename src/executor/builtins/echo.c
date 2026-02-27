@@ -15,24 +15,25 @@ static int is_n_flag(char *arg)
   return (1);
 }
 
-void builtin_echo(char **args)
+void builtin_echo(t_ms *shell)
 {
   int i;
   int n_flag;
   i = 1;
   n_flag = 0;
-  while (args[i] && is_n_flag(args[i]))
+  while (shell->cmd_list->args[i] && is_n_flag(shell->cmd_list->args[i]))
   {
     n_flag = 1;
     i++;
   }
-  while (args[i])
+  while (shell->cmd_list->args[i])
   {
-    ft_putstr_fd(args[i], 1);
-    if (args[i + 1])
+    ft_putstr_fd(shell->cmd_list->args[i], 1);
+    if (shell->cmd_list->args[i + 1])
       write(1, " ", 1);
     i++;
   }
   if (!n_flag)
     write(1, "\n", 1);
+  shell->last_status = 0;
 }

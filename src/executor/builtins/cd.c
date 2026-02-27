@@ -14,14 +14,14 @@ void builtin_cd(char **args, t_ms *shell)
 		dest = args[1];
 	if (!dest)
 	{
-		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		shell->last_status = 1;
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return ;
 	}
     if (chdir(dest) != 0)
     {
-        perror("minishell: cd");
         shell->last_status = 1;
+        perror("minishell: cd");
         return ;
     }
     update_env_val("OLDPWD", oldpwd, shell);

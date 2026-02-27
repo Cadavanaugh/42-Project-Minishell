@@ -63,18 +63,19 @@ void    skip_until_next_quote(char *s, int *i);
 char boolean_invert(char value);
 t_cmd *parser(t_token *token_list);
 char is_builtin(char *input);
+t_ms *create_shell_instance(char **envs);
 void debug_shell(t_cmd *head);
-t_ms *expander(t_cmd *head, char **envs);
+void expander(t_ms *shell);
 char *get_env_val(const char *name, t_ms *shell);
 void update_env_val(const char *key, char *value, t_ms *shell);
 void clean_ms(t_ms *shell);
 char *remove_quotes(char *input);
 void executor(t_ms *shell);
 void free_matrix(char **m);
-void builtin_echo(char **args);
+void builtin_echo(t_ms *shell);
 void builtin_env(char **envs);
 void builtin_cd(char **args, t_ms *shell);
 void builtin_export(char **args, t_ms *shell);
-void builtin_unset(char ***envs, char *name);
+void builtin_unset(t_ms *shell, char *name);
 
 #endif

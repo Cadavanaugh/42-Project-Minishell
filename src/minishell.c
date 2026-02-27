@@ -7,6 +7,7 @@ int main(int argc, char *argv[], char *envs[])
   t_ms *shell;
   (void)argc;
   (void)argv;
+  shell = create_shell_instance(envs);
   while (1)
   {
     input = readline("minishell$ ");
@@ -18,18 +19,16 @@ int main(int argc, char *argv[], char *envs[])
     if (*input)
       add_history(input);
     token_list = lexit(input);
-    t_cmd   *node;
-    node = parser(token_list);
-    shell = expander(node, envs);
+    free(input);
+    shell->cmd_list = parser(token_list);
+    free(token_list);
     // if (node)
     // {
     //   printf("\n--- DEBUGZINHO DO PARSER ---\n");
     //   debug_shell(node);
     // }
+    expander(shell);
     executor(shell);
-    envs = shell->envs;
-    free(input);
-    free(token_list);
   }
   return (0);
 }

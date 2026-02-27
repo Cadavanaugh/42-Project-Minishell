@@ -42,7 +42,7 @@ void call_builtins(t_ms *shell)
   if (ft_strncmp(shell->cmd_list->args[0], "pwd", 3) == 0)
     printf("%s\n", getcwd(cwd, sizeof(cwd)));
   else if (ft_strncmp(shell->cmd_list->args[0], "echo", 4) == 0)
-    builtin_echo(shell->cmd_list->args);
+    builtin_echo(shell);
   else if (ft_strncmp(shell->cmd_list->args[0], "env", 3) == 0)
     builtin_env(shell->envs);
   else if (ft_strncmp(shell->cmd_list->args[0], "cd", 2) == 0)
@@ -50,7 +50,7 @@ void call_builtins(t_ms *shell)
   else if (ft_strncmp(shell->cmd_list->args[0], "export", 6) == 0)
     builtin_export(shell->cmd_list->args, shell);
   else if (ft_strncmp(shell->cmd_list->args[0], "unset", 5) == 0)
-    builtin_unset(&shell->envs, shell->cmd_list->args[1]);
+    builtin_unset(shell, shell->cmd_list->args[1]);
   else if (ft_strncmp(shell->cmd_list->args[0], "exit", 4) == 0)
     exit(0);
 }

@@ -1,22 +1,5 @@
 #include "../minishell.h"
 
-static void store_envs(t_ms *shell, char **envs)
-{
-  int i;
-  i = 0;
-  while (envs[i])
-    i++;
-  shell->envs = ft_calloc(sizeof(char *), i + 1);
-  if (!shell->envs)
-    return;
-  i = 0;
-  while (envs[i])
-  {
-    shell->envs[i] = ft_strdup(envs[i]);
-    i++;
-  }
-}
-
 static void mount_string(t_ms *shell, int i, int j, int inicio, int breakpoint)
 {
   char *before_chunk;
@@ -25,7 +8,10 @@ static void mount_string(t_ms *shell, int i, int j, int inicio, int breakpoint)
   char *temp;
   char *result;
   before_chunk = ft_substr(shell->cmd_list->args[j], 0, inicio);
-  var_value = get_env_val(ft_substr(shell->cmd_list->args[j], inicio + 1, breakpoint - inicio), shell);
+  if (shell->cmd_list->args[j][inicio + 1] == '?')
+    var_value = ft_itoa(shell->last_status);
+  else
+    var_value = get_env_val(ft_substr(shell->cmd_list->args[j], inicio + 1, breakpoint - inicio), shell);
   if (!var_value)
     var_value = ft_strdup("");
   after_chunk = ft_substr(shell->cmd_list->args[j], breakpoint + 1, i - breakpoint + 1);
@@ -33,6 +19,7 @@ static void mount_string(t_ms *shell, int i, int j, int inicio, int breakpoint)
   result = ft_strjoin(temp, after_chunk);
   shell->cmd_list->args[j] = result;
   free(temp);
+  free(var_value);
   free(before_chunk);
   free(after_chunk);
 } // echo "hello $USER que usa TERMINAL $SHELL COLOR $TERM e ARQ $HOSTTYPE aaaaa"
@@ -50,8 +37,12 @@ static void rebuild_string(t_ms *shell, int i, int j)
   mount_string(shell, i, j, inicio, breakpoint);
 }
 
-static void expand_variables(t_ms *shell, int i, int j)
+void expander(t_ms *shell)
 {
+  int i;
+  int j;
+  i = 0;
+  j = 0;
   char inside_simple_quote;
   inside_simple_quote = 0;
   while (shell->cmd_list->args[j])
@@ -72,12 +63,3 @@ static void expand_variables(t_ms *shell, int i, int j)
   }
 }
 
-t_ms * expander(t_cmd *parser_head_node, char **envs)
-{
-  t_ms *shell = ft_calloc(sizeof(t_ms *), 2);
-  store_envs(shell, envs);
-  shell->cmd_list = parser_head_node;
-  shell->last_status = 0;
-  expand_variables(shell, 0, 0);
-  return shell;
-}
