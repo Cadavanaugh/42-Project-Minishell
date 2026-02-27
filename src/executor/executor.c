@@ -55,6 +55,21 @@ void call_builtins(t_ms *shell)
     exit(0);
 }
 
+static void call_path(t_ms *shell, char *cmd)
+{
+  int return_status_code;
+  int return_status;
+  pid_t child_pid;
+  child_pid = fork();
+  if (child_pid == 0)
+    execvp(cmd, shell->cmd_list->args);
+  waitpid(child_pid, &return_status, 0);
+  if (WIFEXITED(return_status)) {
+    return_status_code = WEXITSTATUS(return_status);
+    shell->last_status = return_status_code;
+  }
+}
+
 void executor(t_ms *shell)
 {
   char **path_dirs;
@@ -64,11 +79,7 @@ void executor(t_ms *shell)
   else {
     path_dirs = get_path_dirs(shell);
     command_path = get_full_command_path(shell->cmd_list->args[0], path_dirs);
-    int child_id = fork();
-    if (child_id == 0)
-      execvp(command_path, shell->cmd_list->args);
-    wait(NULL);
+    call_path(shell, command_path);
     free_matrix(path_dirs);
-    (void)command_path;
   }
 }
