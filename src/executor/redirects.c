@@ -36,6 +36,8 @@ static int apply_single_redirect(t_redir *redir)
         return (redirect_output(redir->target, O_CREAT | O_WRONLY | O_APPEND));
     else if (redir->type == REDIRECT_IN)
         return (redirect_input(redir->target));
+    else if (redir->type == HEREDOC)
+        return (redirect_heredoc(redir->target));
     return (0);
 }
 
