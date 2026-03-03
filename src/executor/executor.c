@@ -79,11 +79,6 @@ static void	call_path(t_ms *shell, char *cmd)
 	child_pid = fork();
 	if (child_pid == 0)
 	{
-		if (shell->cmd_list->redirs)
-		{
-			if (apply_redirects(shell) < 0)
-				exit(EXIT_FAILURE);
-		}
 		execvp(cmd, shell->cmd_list->args);
 		perror("execvp");
 		exit(EXIT_FAILURE);
@@ -100,7 +95,13 @@ void	executor(t_ms *shell)
 {
 	char	**path_dirs;
 	char	*command_path;
+	int		initial_stdout;
+	int		initial_stdin;
 
+	initial_stdout = dup(STDOUT_FILENO);
+	initial_stdin = dup(STDIN_FILENO);
+	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
+		exit(EXIT_FAILURE);
 	if (is_builtin(shell->cmd_list->args[0]))
 		call_builtins(shell);
 	else
@@ -112,4 +113,8 @@ void	executor(t_ms *shell)
 		call_path(shell, command_path);
 		free(command_path);
 	}
+	dup2(initial_stdout, STDOUT_FILENO);
+	close(initial_stdout);
+	dup2(initial_stdin, STDIN_FILENO);
+	close(initial_stdin);
 }
