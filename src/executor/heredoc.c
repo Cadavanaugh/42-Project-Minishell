@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static char is_delimiter_quotted(char *delimiter)
+char is_delimiter_quotted(char *delimiter)
 {
 	int delim_size;
 
@@ -34,14 +34,13 @@ static void read_heredoc(int fd, char *delimiter, t_ms *shell)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-			&& ft_strlen(line) == ft_strlen(delimiter))
+		if (!is_delimiter_quotted(delimiter))
+			expand_line(&line, shell);
+		if (heredoc_stop_condition(line, delimiter))
 		{
 			free(line);
 			break ;
 		}
-		if (!is_delimiter_quotted(delimiter))
-			expand_line(&line, shell);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);

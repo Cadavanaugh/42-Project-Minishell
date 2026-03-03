@@ -90,5 +90,7 @@ void				builtin_unset(t_ms *shell, char *name);
 int					apply_redirects(t_ms *shell);
 int					redirect_heredoc(char *delimiter, t_ms *shell);
 void				rebuild_string(char **og_str, int i, t_ms *shell);
+char				is_delimiter_quotted(char *delimiter);
+char				heredoc_stop_condition(char *line, char *delimiter);
 
 #endif
