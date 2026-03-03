@@ -21,7 +21,7 @@ static void mount_string(t_ms *shell, int i, int j, int inicio, int breakpoint)
   free(temp);
   free(before_chunk);
   free(after_chunk);
-} // echo "hello $USER que usa TERMINAL $SHELL COLOR $TERM e ARQ $HOSTTYPE aaaaa"
+}
 
 static void rebuild_string(t_ms *shell, int i, int j)
 {
