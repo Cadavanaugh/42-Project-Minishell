@@ -1,6 +1,31 @@
 #include "../minishell.h"
 
-static void read_heredoc(int fd, char *delimiter)
+static char is_delimiter_quotted(char *delimiter)
+{
+	int delim_size;
+
+	delim_size = ft_strlen(delimiter);
+	if (delimiter[0] == '"' && delimiter[delim_size - 1] == '"')
+		return 1;
+	if (delimiter[0] == '\'' && delimiter[delim_size - 1] == '\'')
+		return 1;
+	return 0;
+}
+
+static void expand_line(char **line, t_ms *shell)
+{
+	int i;
+
+	i = 0;
+	while ((*line)[i])
+	{
+		if ((*line)[i] == '$')
+			rebuild_string(line, i, shell);
+		i++;
+	}
+}
+
+static void read_heredoc(int fd, char *delimiter, t_ms *shell)
 {
 	char    *line;
 
@@ -15,13 +40,15 @@ static void read_heredoc(int fd, char *delimiter)
 			free(line);
 			break ;
 		}
+		if (!is_delimiter_quotted(delimiter))
+			expand_line(&line, shell);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
 	}
 }
 
-static int handle_heredoc(char *delimiter)
+static int handle_heredoc(char *delimiter, t_ms *shell)
 {
 	int     fd[2];
 
@@ -30,15 +57,15 @@ static int handle_heredoc(char *delimiter)
 		perror("pipe");
 		return (-1);
 	}
-	read_heredoc(fd[1], delimiter);
+	read_heredoc(fd[1], delimiter, shell);
 	close(fd[1]);
 	return (fd[0]);
 }
 
-int redirect_heredoc(char *delimiter)
+int redirect_heredoc(char *delimiter, t_ms *shell)
 {
 	int fd_in;
-	fd_in = handle_heredoc(delimiter);
+	fd_in = handle_heredoc(delimiter, shell);
 	if (fd_in < 0)
 		return (-1);
 	dup2(fd_in, STDIN_FILENO);

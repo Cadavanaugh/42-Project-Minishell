@@ -42,7 +42,7 @@ static int	redirect_input(char *target)
 	return (0);
 }
 
-static int	apply_single_redirect(t_redir *redir)
+static int	apply_single_redirect(t_redir *redir, t_ms *shell)
 {
     if (redir->type == REDIRECT_OUT)
         return (redirect_output(redir->target, O_CREAT | O_WRONLY | O_TRUNC));
@@ -51,18 +51,18 @@ static int	apply_single_redirect(t_redir *redir)
     else if (redir->type == REDIRECT_IN)
         return (redirect_input(redir->target));
     else if (redir->type == HEREDOC)
-        return (redirect_heredoc(redir->target));
+        return (redirect_heredoc(redir->target, shell));
     return (0);
 }
 
-int	apply_redirects(t_cmd *cmd)
+int	apply_redirects(t_ms *shell)
 {
 	t_redir	*redir;
 
-	redir = cmd->redirs;
+	redir = shell->cmd_list->redirs;
 	while (redir)
 	{
-		if (apply_single_redirect(redir) < 0)
+		if (apply_single_redirect(redir, shell) < 0)
 			return (-1);
 		redir = redir->next;
 	}

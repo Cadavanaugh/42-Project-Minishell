@@ -81,7 +81,7 @@ static void	call_path(t_ms *shell, char *cmd)
 	{
 		if (shell->cmd_list->redirs)
 		{
-			if (apply_redirects(shell->cmd_list) < 0)
+			if (apply_redirects(shell) < 0)
 				exit(EXIT_FAILURE);
 		}
 		execvp(cmd, shell->cmd_list->args);

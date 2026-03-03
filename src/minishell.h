@@ -87,7 +87,8 @@ void				builtin_env(t_ms *shell);
 void				builtin_cd(char **args, t_ms *shell);
 void				builtin_export(char **args, t_ms *shell);
 void				builtin_unset(t_ms *shell, char *name);
-int					apply_redirects(t_cmd *cmd);
-int					redirect_heredoc(char *delimiter);
+int					apply_redirects(t_ms *shell);
+int					redirect_heredoc(char *delimiter, t_ms *shell);
+void				rebuild_string(char **og_str, int i, t_ms *shell);
 
 #endif
