@@ -90,5 +90,9 @@ int					redirect_heredoc(char *delimiter, t_ms *shell);
 void				rebuild_string(char **og_str, int i, t_ms *shell);
 char				is_delimiter_quotted(char *delimiter);
 char				heredoc_stop_condition(char *line, char *delimiter);
+void				call_path(t_ms *shell, char *cmd);
+char				**get_path_dirs(t_ms *shell);
+char				*get_full_command_path(char *cmd, char **path_dirs);
+void				call_builtins(t_ms *shell);
 
 #endif

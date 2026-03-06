@@ -12,96 +12,16 @@
 
 #include "../minishell.h"
 
-static char	**get_path_dirs(t_ms *shell)
+static void multi_execution(t_ms *shell)
 {
-	char	*path;
-	char	**splitted_path;
 
-	path = get_env_val("PATH", shell);
-	splitted_path = ft_split(path, ':');
-	if (!splitted_path)
-		return (NULL);
-	return (splitted_path);
 }
 
-static char	*get_full_command_path(char *cmd, char **path_dirs)
-{
-	char	*full_path;
-	char	*temp;
-	int		i;
-
-	if (cmd && (cmd[0] == '/' || cmd[0] == '.'))
-	{
-		if (access(cmd, F_OK | X_OK) == 0)
-			return (ft_strdup(cmd));
-		return (NULL);
-	}
-	i = 0;
-	while (path_dirs[i])
-	{
-		temp = ft_strjoin(path_dirs[i], "/");
-		full_path = ft_strjoin(temp, cmd);
-		free(temp);
-		if (access(full_path, F_OK | X_OK) == 0)
-			return (full_path);
-		free(full_path);
-		i++;
-	}
-	return (NULL);
-}
-
-static void	call_builtins(t_ms *shell)
-{
-	char	cwd[PATH_MAX];
-
-	if (ft_strncmp(shell->cmd_list->args[0], "pwd", 3) == 0)
-		printf("%s\n", getcwd(cwd, sizeof(cwd)));
-	else if (ft_strncmp(shell->cmd_list->args[0], "echo", 4) == 0)
-		builtin_echo(shell);
-	else if (ft_strncmp(shell->cmd_list->args[0], "env", 3) == 0)
-		builtin_env(shell);
-	else if (ft_strncmp(shell->cmd_list->args[0], "cd", 2) == 0)
-		builtin_cd(shell->cmd_list->args, shell);
-	else if (ft_strncmp(shell->cmd_list->args[0], "export", 6) == 0)
-		builtin_export(shell->cmd_list->args, shell);
-	else if (ft_strncmp(shell->cmd_list->args[0], "unset", 5) == 0)
-		builtin_unset(shell, shell->cmd_list->args[1]);
-	else if (ft_strncmp(shell->cmd_list->args[0], "exit", 4) == 0)
-		exit(0);
-}
-
-static void	call_path(t_ms *shell, char *cmd)
-{
-	int		return_status_code;
-	int		return_status;
-	pid_t	child_pid;
-
-	child_pid = fork();
-	if (child_pid == 0)
-	{
-		execvp(cmd, shell->cmd_list->args);
-		perror("execvp");
-		exit(EXIT_FAILURE);
-	}
-	waitpid(child_pid, &return_status, 0);
-	if (WIFEXITED(return_status))
-	{
-		return_status_code = WEXITSTATUS(return_status);
-		shell->last_status = return_status_code;
-	}
-}
-
-void	executor(t_ms *shell)
+static void single_execution(t_ms *shell)
 {
 	char	**path_dirs;
 	char	*command_path;
-	int		initial_stdout;
-	int		initial_stdin;
 
-	initial_stdout = dup(STDOUT_FILENO);
-	initial_stdin = dup(STDIN_FILENO);
-	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
-		exit(EXIT_FAILURE);
 	if (is_builtin(shell->cmd_list->args[0]))
 		call_builtins(shell);
 	else
@@ -113,6 +33,21 @@ void	executor(t_ms *shell)
 		call_path(shell, command_path);
 		free(command_path);
 	}
+}
+
+void	executor(t_ms *shell)
+{
+	int		initial_stdout;
+	int		initial_stdin;
+
+	initial_stdout = dup(STDOUT_FILENO);
+	initial_stdin = dup(STDIN_FILENO);
+	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
+		exit(EXIT_FAILURE);
+	if (shell->cmd_list->next)
+		multi_execution(shell);
+	else
+		single_execution(shell);
 	dup2(initial_stdout, STDOUT_FILENO);
 	close(initial_stdout);
 	dup2(initial_stdin, STDIN_FILENO);
