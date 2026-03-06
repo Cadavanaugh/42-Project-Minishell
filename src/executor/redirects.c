@@ -44,15 +44,18 @@ static int	redirect_input(char *target)
 
 static int	apply_single_redirect(t_redir *redir, t_ms *shell)
 {
-    if (redir->type == REDIRECT_OUT)
-        return (redirect_output(redir->target, O_CREAT | O_WRONLY | O_TRUNC));
-    else if (redir->type == REDIRECT_APPEND)
-        return (redirect_output(redir->target, O_CREAT | O_WRONLY | O_APPEND));
-    else if (redir->type == REDIRECT_IN)
-        return (redirect_input(redir->target));
-    else if (redir->type == HEREDOC)
-        return (redirect_heredoc(redir->target, shell));
-    return (0);
+	int return_val;
+
+	return_val = 0;
+	if (redir->type == REDIRECT_OUT)
+		return_val = redirect_output(redir->target, O_CREAT | O_WRONLY | O_TRUNC);
+	else if (redir->type == REDIRECT_APPEND)
+		return_val = redirect_output(redir->target, O_CREAT | O_WRONLY | O_APPEND);
+	else if (redir->type == REDIRECT_IN)
+		return_val = redirect_input(redir->target);
+	else if (redir->type == HEREDOC)
+		return_val = redirect_heredoc(redir->target, shell);
+	return (return_val);
 }
 
 int	apply_redirects(t_ms *shell)
