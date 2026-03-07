@@ -15,11 +15,10 @@
 
 #include "../minishell.h"
 
-
 static void	piece_cmd_exec(t_ms *shell)
 {
-	char **path_dirs;
-	char *command_path;
+	char	**path_dirs;
+	char	*command_path;
 
 	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
 		exit(EXIT_FAILURE);
@@ -31,7 +30,8 @@ static void	piece_cmd_exec(t_ms *shell)
 	else
 	{
 		path_dirs = get_path_dirs(shell);
-		command_path = get_full_command_path(shell->cmd_list->args[0], path_dirs);
+		command_path = get_full_command_path(shell->cmd_list->args[0],
+				path_dirs);
 		free_matrix(path_dirs);
 		execvp(command_path, shell->cmd_list->args);
 		free(command_path);
@@ -42,8 +42,8 @@ static void	piece_cmd_exec(t_ms *shell)
 
 static pid_t	multi_cmd_exec(t_ms *shell)
 {
-	int fd[2];
-	pid_t child_id;
+	int		fd[2];
+	pid_t	child_id;
 
 	while (shell->cmd_list)
 	{
@@ -71,8 +71,8 @@ static pid_t	multi_cmd_exec(t_ms *shell)
 
 static void	single_cmd_exec(t_ms *shell)
 {
-	char **path_dirs;
-	char *command_path;
+	char	**path_dirs;
+	char	*command_path;
 
 	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
 		exit(EXIT_FAILURE);
@@ -91,7 +91,8 @@ static void	single_cmd_exec(t_ms *shell)
 
 static void	await_results(t_ms *shell, pid_t child_pid)
 {
-	int return_status;
+	int	return_status;
+
 	while (shell->cmd_list->next)
 	{
 		wait(NULL);
@@ -104,10 +105,10 @@ static void	await_results(t_ms *shell, pid_t child_pid)
 
 void	executor(t_ms *shell)
 {
-	int initial_stdout;
-	int initial_stdin;
-	pid_t child_pid;
-	t_cmd *first;
+	int		initial_stdout;
+	int		initial_stdin;
+	pid_t	child_pid;
+	t_cmd	*first;
 
 	first = shell->cmd_list;
 	initial_stdout = dup(STDOUT_FILENO);

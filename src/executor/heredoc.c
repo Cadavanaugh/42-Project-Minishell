@@ -1,20 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/07 09:55:52 by jode-cas          #+#    #+#             */
+/*   Updated: 2026/03/07 09:55:53 by jode-cas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-char is_delimiter_quotted(char *delimiter)
+char	is_delimiter_quotted(char *delimiter)
 {
-	int delim_size;
+	int	delim_size;
 
 	delim_size = ft_strlen(delimiter);
 	if (delimiter[0] == '"' && delimiter[delim_size - 1] == '"')
-		return 1;
+		return (1);
 	if (delimiter[0] == '\'' && delimiter[delim_size - 1] == '\'')
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }
 
-static void expand_line(char **line, t_ms *shell)
+static void	expand_line(char **line, t_ms *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while ((*line)[i])
@@ -25,9 +37,9 @@ static void expand_line(char **line, t_ms *shell)
 	}
 }
 
-static void read_heredoc(int fd, char *delimiter, t_ms *shell)
+static void	read_heredoc(int fd, char *delimiter, t_ms *shell)
 {
-	char    *line;
+	char	*line;
 
 	while (1)
 	{
@@ -47,9 +59,9 @@ static void read_heredoc(int fd, char *delimiter, t_ms *shell)
 	}
 }
 
-static int handle_heredoc(char *delimiter, t_ms *shell)
+static int	handle_heredoc(char *delimiter, t_ms *shell)
 {
-	int     fd[2];
+	int	fd[2];
 
 	if (pipe(fd) < 0)
 	{
@@ -61,9 +73,10 @@ static int handle_heredoc(char *delimiter, t_ms *shell)
 	return (fd[0]);
 }
 
-int redirect_heredoc(char *delimiter, t_ms *shell)
+int	redirect_heredoc(char *delimiter, t_ms *shell)
 {
-	int fd_in;
+	int	fd_in;
+
 	fd_in = handle_heredoc(delimiter, shell);
 	if (fd_in < 0)
 		return (-1);

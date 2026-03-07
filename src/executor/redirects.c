@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 17:41:11 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/02 17:41:11 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/07 09:55:02 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,15 @@ static int	redirect_input(char *target)
 
 static int	apply_single_redirect(t_redir *redir, t_ms *shell)
 {
-	int return_val;
+	int	return_val;
 
 	return_val = 0;
 	if (redir->type == REDIRECT_OUT)
-		return_val = redirect_output(redir->target, O_CREAT | O_WRONLY | O_TRUNC);
+		return_val = redirect_output(redir->target,
+				O_CREAT | O_WRONLY | O_TRUNC);
 	else if (redir->type == REDIRECT_APPEND)
-		return_val = redirect_output(redir->target, O_CREAT | O_WRONLY | O_APPEND);
+		return_val = redirect_output(redir->target,
+				O_CREAT | O_WRONLY | O_APPEND);
 	else if (redir->type == REDIRECT_IN)
 		return_val = redirect_input(redir->target);
 	else if (redir->type == HEREDOC)

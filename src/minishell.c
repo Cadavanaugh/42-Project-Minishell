@@ -6,13 +6,13 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:46 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/02 15:13:55 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/07 09:54:39 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void shell_loop(t_ms *shell)
+void	shell_loop(t_ms *shell)
 {
 	char	*input;
 	t_token	*token_list;
