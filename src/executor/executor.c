@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2026/03/02 17:53:07 by jode-cas          #+#    #+#             */
 /*   Updated: 2026/03/02 17:53:07 by jode-cas         ###   ########.fr       */
 /*                                                                            */
@@ -12,33 +15,39 @@
 
 #include "../minishell.h"
 
-static void piece_cmd_exec(t_ms *shell)
-{
-	char	**path_dirs;
-	char	*command_path;
 
+static void	piece_cmd_exec(t_ms *shell)
+{
+	char **path_dirs;
+	char *command_path;
+
+	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
+		exit(EXIT_FAILURE);
 	if (is_builtin(shell->cmd_list->args[0]))
+	{
 		call_builtins(shell);
+		exit(shell->last_status);
+	}
 	else
 	{
 		path_dirs = get_path_dirs(shell);
-		command_path = get_full_command_path(shell->cmd_list->args[0],
-				path_dirs);
+		command_path = get_full_command_path(shell->cmd_list->args[0], path_dirs);
 		free_matrix(path_dirs);
 		execvp(command_path, shell->cmd_list->args);
+		free(command_path);
 		perror("execvp");
 		exit(EXIT_FAILURE);
 	}
 }
 
-static void multi_cmd_exec(t_ms *shell)
+static pid_t	multi_cmd_exec(t_ms *shell)
 {
 	int fd[2];
 	pid_t child_id;
 
-	while	(shell->cmd_list)
+	while (shell->cmd_list)
 	{
-		if (pipe(fd) < 0)
+		if (shell->cmd_list->next && pipe(fd) < 0)
 			perror("pipe");
 		child_id = fork();
 		if (child_id == 0)
@@ -49,17 +58,24 @@ static void multi_cmd_exec(t_ms *shell)
 			close(fd[1]);
 			piece_cmd_exec(shell);
 		}
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[1]);
+		if (shell->cmd_list->next)
+		{
+			dup2(fd[0], STDIN_FILENO);
+			close(fd[1]);
+		}
 		shell->cmd_list = shell->cmd_list->next;
 	}
+	close(fd[0]);
+	return (child_id);
 }
 
-static void single_cmd_exec(t_ms *shell)
+static void	single_cmd_exec(t_ms *shell)
 {
-	char	**path_dirs;
-	char	*command_path;
+	char **path_dirs;
+	char *command_path;
 
+	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
+		exit(EXIT_FAILURE);
 	if (is_builtin(shell->cmd_list->args[0]))
 		call_builtins(shell);
 	else
@@ -73,26 +89,34 @@ static void single_cmd_exec(t_ms *shell)
 	}
 }
 
+static void	await_results(t_ms *shell, pid_t child_pid)
+{
+	int return_status;
+	while (shell->cmd_list->next)
+	{
+		wait(NULL);
+		shell->cmd_list = shell->cmd_list->next;
+	}
+	waitpid(child_pid, &return_status, 0);
+	if (WIFEXITED(return_status))
+		shell->last_status = WEXITSTATUS(return_status);
+}
+
 void	executor(t_ms *shell)
 {
-	int		initial_stdout;
-	int		initial_stdin;
+	int initial_stdout;
+	int initial_stdin;
+	pid_t child_pid;
 	t_cmd *first;
 
+	first = shell->cmd_list;
 	initial_stdout = dup(STDOUT_FILENO);
 	initial_stdin = dup(STDIN_FILENO);
-	first = shell->cmd_list;
-	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
-		exit(EXIT_FAILURE);
 	if (shell->cmd_list->next)
 	{
-		multi_cmd_exec(shell);
+		child_pid = multi_cmd_exec(shell);
 		shell->cmd_list = first;
-		while(shell->cmd_list)
-		{
-			wait(NULL);
-			shell->cmd_list = shell->cmd_list->next
-		}
+		await_results(shell, child_pid);
 	}
 	else
 		single_cmd_exec(shell);
