@@ -24,7 +24,8 @@ SRCS 			= src/minishell.c \
 						src/executor/builtins/echo.c \
 						src/executor/builtins/env.c \
 						src/executor/builtins/cd.c \
-						src/executor/builtins/export.c
+						src/executor/builtins/export.c \
+						src/signals/signals.c
 OBJS 			= $(SRCS:%.c=%.o)
 
 all: $(LIBFT) $(NAME)
