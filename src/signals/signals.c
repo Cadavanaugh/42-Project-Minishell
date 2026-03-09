@@ -16,5 +16,6 @@ void SIGINT_handler()
 {
   rl_on_new_line();
   rl_replace_line("", 0);
+  printf("\033[2K\r");
   rl_redisplay();
 }
