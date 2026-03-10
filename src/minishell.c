@@ -39,11 +39,8 @@ void	shell_loop(t_ms *shell)
 int	main(int argc, char *argv[], char *envs[])
 {
 	t_ms	*shell;
-	struct sigaction sigint_sa;
 
-	sigemptyset(&sigint_sa.sa_mask);
-	sigint_sa.sa_handler = &SIGINT_handler;
-	sigaction(SIGINT, &sigint_sa, NULL);
+	config_terminal_signals();
 	(void)argc;
 	(void)argv;
 	shell = create_shell_instance(envs);

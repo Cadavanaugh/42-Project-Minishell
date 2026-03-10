@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <unistd.h>
-//# include <sys/types.h>
+# include <termios.h>
 # include <fcntl.h>
 # include <linux/limits.h>
 # include <readline/history.h>
@@ -95,5 +95,6 @@ char				**get_path_dirs(t_ms *shell);
 char				*get_full_command_path(char *cmd, char **path_dirs);
 void				call_builtins(t_ms *shell);
 void				SIGINT_handler();
+void config_terminal_signals();
 
 #endif

@@ -19,3 +19,19 @@ void SIGINT_handler()
   printf("\033[2K\r");
   rl_redisplay();
 }
+
+void config_terminal_signals()
+{
+  struct termios original;
+  struct termios raw;
+	struct sigaction sigint_sa;
+
+  tcgetattr(STDIN_FILENO, &original);
+  raw = original;
+  raw.c_lflag &= ~(ECHOCTL);
+  tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+	sigemptyset(&sigint_sa.sa_mask);
+	sigint_sa.sa_handler = &SIGINT_handler;
+  sigint_sa.sa_flags = 0;
+	sigaction(SIGINT, &sigint_sa, NULL);
+}
