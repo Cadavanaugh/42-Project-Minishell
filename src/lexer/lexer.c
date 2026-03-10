@@ -73,6 +73,7 @@ t_token	*lexit(char *input)
 	{
 		words = word_splitter(input);
 		token_list = create_token_list(words);
+		free_matrix(words);
 		return (token_list);
 	}
 	return (NULL);
