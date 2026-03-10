@@ -17,7 +17,7 @@ void sigint_handler(int sig)
 	(void)sig;
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	write(1, "\n", 1); //acrescentado para pular linha porque o readline não faz isso automaticamente
+	write(1, "\n", 1);
 	rl_redisplay();
 }
 void set_signals(void)
