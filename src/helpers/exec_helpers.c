@@ -98,8 +98,6 @@ void	call_path(t_ms *shell, char *cmd)
 		set_signals_child();
 		execvp(cmd, shell->cmd_list->args);
 		perror("execvp");
-		if (errno == ENOENT)
-			exit(127);
 		exit(EXIT_FAILURE);
 	}
 	set_signals_exec();
