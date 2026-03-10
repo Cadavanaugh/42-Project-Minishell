@@ -79,10 +79,12 @@ void	call_path(t_ms *shell, char *cmd)
 	child_pid = fork();
 	if (child_pid == 0)
 	{
+		set_signals_child();
 		execvp(cmd, shell->cmd_list->args);
 		perror("execvp");
 		exit(EXIT_FAILURE);
 	}
+	set_signals_exec();
 	waitpid(child_pid, &return_status, 0);
 	if (WIFEXITED(return_status))
 	{

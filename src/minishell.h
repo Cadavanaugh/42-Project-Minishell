@@ -96,5 +96,7 @@ char				*get_full_command_path(char *cmd, char **path_dirs);
 void				call_builtins(t_ms *shell);
 void				sigint_handler(int sig);
 void				set_signals(void);
+void				set_signals_child(void);
+void				set_signals_exec(void);
 
 #endif

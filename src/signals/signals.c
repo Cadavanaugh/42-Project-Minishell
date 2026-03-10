@@ -21,6 +21,19 @@ void sigint_handler(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+
+void set_signals_exec(void)
+{
+	signal(SIGINT, SIG_IGN); 
+	signal(SIGQUIT, SIG_IGN); 
+}
+
+void set_signals_child(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
 void set_signals(void)
 {
 	struct sigaction sa_int;
