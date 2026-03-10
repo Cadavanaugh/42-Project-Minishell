@@ -15,9 +15,10 @@
 void sigint_handler(int sig)
 {
 	(void)sig;
+
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	write(1, "\n", 1);
 	rl_redisplay();
 }
 void set_signals(void)
@@ -29,7 +30,6 @@ void set_signals(void)
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_flags = 0;
 	sigaction(SIGINT, &sa_int, NULL);
-
 	sa_quit.sa_handler = SIG_IGN;
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_flags = 0;
