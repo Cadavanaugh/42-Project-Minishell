@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <unistd.h>
+# include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
 # include <readline/history.h>
