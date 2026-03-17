@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:46 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/10 14:07:55 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/17 19:56:39 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ int	main(int argc, char *argv[], char *envs[])
 	(void)argv;
 	shell = create_shell_instance(envs);
 	shell_loop(shell);
-	free_matrix(shell->cmd_list->args);
-	free_matrix(shell->envs);
-	free(shell);
+	free_minishell_memory(shell);
 	return (0);
 }

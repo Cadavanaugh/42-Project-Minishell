@@ -6,26 +6,19 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:23:20 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/02 15:23:21 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/17 19:57:30 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	clean_ms(t_ms *shell)
+void	free_minishell_memory(t_ms *shell)
 {
-	int	i;
-
-	i = 0;
+	if (shell->cmd_list)
+		free_matrix(shell->cmd_list->args);
 	if (shell->envs)
-	{
-		while (shell->envs[i])
-		{
-			free(shell->envs[i]);
-			i++;
-		}
-		free(shell->envs);
-	}
+		free_matrix(shell->envs);
+	free(shell);
 }
 
 void	free_matrix(char **m)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:10 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/09 21:47:41 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/17 19:56:54 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 # define MINISHELL_H
 
 # include "../libs/libft/libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <unistd.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <linux/limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
 # include <sys/wait.h>
+# include <unistd.h>
 
 typedef enum e_token_type
 {
@@ -76,7 +76,7 @@ t_ms				*create_shell_instance(char **envs);
 void				expander(t_ms *shell);
 char				*get_env_val(const char *name, t_ms *shell);
 void				update_env_val(const char *key, char *value, t_ms *shell);
-void				clean_ms(t_ms *shell);
+void				free_minishell_memory(t_ms *shell);
 char				*remove_quotes(char *input);
 void				executor(t_ms *shell);
 void				free_matrix(char **m);
@@ -98,6 +98,6 @@ void				sigint_handler(int sig);
 void				set_signals(void);
 void				set_signals_child(void);
 void				set_signals_exec(void);
-char is_empty_command(char	*input);
+char				is_empty_command(char *input);
 
 #endif
