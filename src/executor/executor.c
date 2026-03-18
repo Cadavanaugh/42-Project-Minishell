@@ -101,10 +101,9 @@ static void	await_results(t_ms *shell, pid_t child_pid)
     }
 		shell->cmd_list = shell->cmd_list->next;
 	}
-	while (waitpid(child_pid, &return_status, 0) == -1) {
+	while (waitpid(child_pid, &return_status, 0) == -1)
     if (errno != EINTR)
       break;
-  }
 	if (WIFEXITED(return_status))
 		shell->last_status = WEXITSTATUS(return_status);
 }

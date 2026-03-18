@@ -105,10 +105,9 @@ void	call_path(t_ms *shell, char *cmd)
 		perror(cmd);
 	}
 	set_signals_exec();
-	while (waitpid(child_pid, &return_status, 0) == -1) {
+	while (waitpid(child_pid, &return_status, 0) == -1)
     if (errno != EINTR)
 			break;
-	}
 	set_signals();
 	get_return_status(shell, return_status);
 }

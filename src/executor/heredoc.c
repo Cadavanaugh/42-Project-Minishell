@@ -75,10 +75,9 @@ static int	handle_heredoc(char *delimiter, t_ms *shell)
 	if (heredoc_pid == 0)
 		read_heredoc(fd, delimiter, shell);
 	set_signals_exec();
-	while (waitpid(heredoc_pid, &status, 0) == -1) {
+	while (waitpid(heredoc_pid, &status, 0) == -1)
     if (errno != EINTR)
 			break;
-	}
 	set_signals();
 	close(fd[1]);
 	return (fd[0]);
