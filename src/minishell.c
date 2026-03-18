@@ -31,6 +31,8 @@ void	shell_loop(t_ms *shell)
 		if (*input)
 			add_history(input);
 		token_list = lexit(input);
+		if (!token_list)
+			continue;
 		free(input);
 		shell->cmd_list = parser(token_list);
 		free(token_list);
