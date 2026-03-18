@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   universal_helpers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:15:37 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/07 09:58:09 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/18 14:42:23 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,14 @@ char	heredoc_stop_condition(char *line, char *delimiter)
 			free(unquoted_delimiter);
 			return (1);
 		}
+		free(unquoted_delimiter);
 	}
 	else
 	{
 		(void)unquoted_delimiter;
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-			&& ft_strlen(line) == ft_strlen(delimiter))
-			return (1);
+		&& ft_strlen(line) == ft_strlen(delimiter))
+		return (1);
 	}
 	return (0);
 }
