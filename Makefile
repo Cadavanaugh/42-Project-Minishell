@@ -14,6 +14,7 @@ SRCS 			= src/minishell.c \
 						src/helpers/universal_helpers.c \
 						src/helpers/universal_helpers_2.c \
 						src/helpers/env_helpers.c \
+						src/helpers/heredoc_helpers.c \
 						src/helpers/exec_helpers.c \
 						src/helpers/shell_helpers.c \
 						src/helpers/cleaners.c \
