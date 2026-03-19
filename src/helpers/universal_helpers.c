@@ -51,27 +51,12 @@ char	is_builtin(char *input)
 		return (0);
 }
 
-char	heredoc_stop_condition(char *line, char *delimiter)
+char	*remove_quotes(char *input)
 {
-	char	*unquoted_delimiter;
+	int		len;
+	char	*no_quotes;
 
-	if (is_delimiter_quotted(delimiter))
-	{
-		unquoted_delimiter = remove_quotes(delimiter);
-		if (ft_strncmp(line, unquoted_delimiter,
-				ft_strlen(unquoted_delimiter)) == 0
-			&& ft_strlen(line) == ft_strlen(unquoted_delimiter))
-		{
-			free(unquoted_delimiter);
-			return (1);
-		}
-	}
-	else
-	{
-		(void)unquoted_delimiter;
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-			&& ft_strlen(line) == ft_strlen(delimiter))
-			return (1);
-	}
-	return (0);
+	len = ft_strlen(input);
+	no_quotes = ft_substr(input, 1, len - 2);
+	return (no_quotes);
 }

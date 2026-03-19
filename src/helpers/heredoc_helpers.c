@@ -1,0 +1,38 @@
+#include "../minishell.h"
+
+char	heredoc_stop_condition(char *line, char *delimiter)
+{
+	char	*unquoted_delimiter;
+
+	if (is_delimiter_quotted(delimiter))
+	{
+		unquoted_delimiter = remove_quotes(delimiter);
+		if (ft_strncmp(line, unquoted_delimiter,
+				ft_strlen(unquoted_delimiter)) == 0
+			&& ft_strlen(line) == ft_strlen(unquoted_delimiter))
+		{
+			free(unquoted_delimiter);
+			return (1);
+		}
+	}
+	else
+	{
+		(void)unquoted_delimiter;
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
+			&& ft_strlen(line) == ft_strlen(delimiter))
+			return (1);
+	}
+	return (0);
+}
+
+char	is_delimiter_quotted(char *delimiter)
+{
+	int	delim_size;
+
+	delim_size = ft_strlen(delimiter);
+	if (delimiter[0] == '"' && delimiter[delim_size - 1] == '"')
+		return (1);
+	if (delimiter[0] == '\'' && delimiter[delim_size - 1] == '\'')
+		return (1);
+	return (0);
+}

@@ -31,22 +31,6 @@ void	builtin_env(t_ms *shell)
 	shell->last_status = 0;
 }
 
-static char	does_env_exist(char **envs, char *name)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = ft_strlen(name);
-	while (envs[i])
-	{
-		if (ft_strncmp(envs[i], name, len) == 0 && envs[i][len] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 static void	create_new_envs(t_ms *shell, int max, char *name, char	***new_envs)
 {
 	int		i;

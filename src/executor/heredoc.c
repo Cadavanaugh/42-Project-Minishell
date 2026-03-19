@@ -14,18 +14,6 @@
 
 int heredoc_sigint = 0;
 
-char	is_delimiter_quotted(char *delimiter)
-{
-	int	delim_size;
-
-	delim_size = ft_strlen(delimiter);
-	if (delimiter[0] == '"' && delimiter[delim_size - 1] == '"')
-		return (1);
-	if (delimiter[0] == '\'' && delimiter[delim_size - 1] == '\'')
-		return (1);
-	return (0);
-}
-
 static void	expand_line(char **line, t_ms *shell)
 {
 	int	i;

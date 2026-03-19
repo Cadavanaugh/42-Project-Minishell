@@ -90,12 +90,18 @@ void	update_env_val(const char *key, char *value, t_ms *shell)
 	shell->envs = reallocate_env(shell->envs, new_entry);
 }
 
-char	*remove_quotes(char *input)
+char	does_env_exist(char **envs, char *name)
 {
-	int		len;
-	char	*no_quotes;
+	int	i;
+	int	len;
 
-	len = ft_strlen(input);
-	no_quotes = ft_substr(input, 1, len - 2);
-	return (no_quotes);
+	i = 0;
+	len = ft_strlen(name);
+	while (envs[i])
+	{
+		if (ft_strncmp(envs[i], name, len) == 0 && envs[i][len] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
 }
