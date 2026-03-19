@@ -50,4 +50,15 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+valgrind-run:
+	@valgrind -q \
+		--leak-check=full \
+		--show-leak-kinds=all \
+		--track-origins=yes \
+		--track-fds=yes \
+		--trace-children=yes \
+		--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
+		--suppressions=./valgrind.supp \
+		./$(NAME)
+
+.PHONY: all clean fclean re valgrind-run
