@@ -14,10 +14,26 @@
 
 int sigint = 0;
 
+int shell_execution(char *input, t_ms *shell)
+{
+	t_token	*token_list;
+
+	token_list = lexit(input);
+	if (!token_list)
+		return 1;
+	free(input);
+	shell->cmd_list = parser(token_list);
+	free_token_list(token_list);
+	expander(shell);
+	executor(shell);
+	free_cmd_list(shell->cmd_list);
+	shell->cmd_list = NULL;
+	return 0;
+}
+
 void	shell_loop(t_ms *shell)
 {
 	char	*input;
-	t_token	*token_list;
 
 	while (1)
 	{
@@ -32,14 +48,7 @@ void	shell_loop(t_ms *shell)
 			continue;
 		if (*input)
 			add_history(input);
-		token_list = lexit(input);
-		if (!token_list)
-			continue;
-		free(input);
-		shell->cmd_list = parser(token_list);
-		free_token_list(token_list);
-		expander(shell);
-		executor(shell);
+		shell_execution(input, shell);
 	}
 }
 
@@ -52,6 +61,7 @@ int	main(int argc, char *argv[], char *envs[])
 	set_signals();
 	shell = create_shell_instance(envs);
 	shell_loop(shell);
-	free_minishell_memory(shell);
+	free_matrix(shell->envs);
+	free(shell);
 	return (0);
 }
