@@ -111,5 +111,4 @@ void	call_path(t_ms *shell, char *cmd)
 			break;
 	set_signals();
 	get_return_status(shell, return_status);
-	set_signals();
 }
