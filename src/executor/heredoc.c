@@ -50,13 +50,31 @@ static void	read_heredoc(int *fd, char *delimiter, t_ms *shell)
 	exit(0);
 }
 
-static int	handle_heredoc(char *delimiter, t_ms *shell)
+static char get_fork_return(pid_t heredoc_pid)
 {
 	int			status;
-	pid_t		heredoc_pid;
-	int			fd[2];
 
 	status = 0;
+	while (waitpid(heredoc_pid, &status, 0) == -1)
+	{
+		if (errno != EINTR)
+			break;
+	}
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		sigint = 1;
+	if (WIFSIGNALED(status))
+	{
+		shell->last_status = 128 + WTERMSIG(status);
+		close(fd[0]);
+		return (-1);
+	}
+	return 0;
+}
+
+static int	handle_heredoc(char *delimiter, t_ms *shell)
+{
+	pid_t		heredoc_pid;
+	int			fd[2];
 	if (pipe(fd) < 0)
 		return (-1);
 	heredoc_pid = fork();
@@ -70,26 +88,10 @@ static int	handle_heredoc(char *delimiter, t_ms *shell)
 	if (heredoc_pid == 0)
 		read_heredoc(fd, delimiter, shell);
 	set_signals_exec();
-	while (waitpid(heredoc_pid, &status, 0) == -1)
-	{
-		if (errno != EINTR)
-			break;
-}
-	set_signals();
+	if (get_fork_return(heredoc_pid) < 0)
+		return (-1);
 	close(fd[1]);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-		sigint = 1;
-		shell->last_status = 130;
-		close(fd[0]);
-		return (-1);
-	}
-	if (WIFSIGNALED(status))
-	{
-		shell->last_status = 128 + WTERMSIG(status);
-		close(fd[0]);
-		return (-1);
-	}
+	set_signals();
 	return (fd[0]);
 }
 
