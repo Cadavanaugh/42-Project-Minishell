@@ -99,6 +99,7 @@ void				sigint_handler(int sig);
 void				set_signals(void);
 void				set_signals_child(void);
 void				set_signals_exec(void);
+void				await_results(t_ms *shell, pid_t child_pid);
 char				is_empty_command(char *input);
 char				does_env_exist(char **envs, char *name);
 void				handle_sigint_last_status(t_ms *shell);
