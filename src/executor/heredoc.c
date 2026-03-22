@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 09:55:52 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/07 09:55:53 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/22 14:53:28 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 static void	expand_line(char **line, t_ms *shell)
 {
 	int	i;
@@ -36,13 +35,13 @@ static void	read_heredoc(int *fd, char *delimiter, t_ms *shell)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (!is_delimiter_quotted(delimiter))
-			expand_line(&line, shell);
 		if (heredoc_stop_condition(line, delimiter))
 		{
 			free(line);
 			break ;
 		}
+		if (!is_delimiter_quotted(delimiter))
+			expand_line(&line, shell);
 		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
 		free(line);
@@ -53,26 +52,44 @@ static void	read_heredoc(int *fd, char *delimiter, t_ms *shell)
 
 static int	handle_heredoc(char *delimiter, t_ms *shell)
 {
-	int	fd[2];
-	pid_t heredoc_pid;
-	int status;
+	int			status;
+	pid_t		heredoc_pid;
+	int			fd[2];
 
+	status = 0;
 	if (pipe(fd) < 0)
 		return (-1);
 	heredoc_pid = fork();
+	if (heredoc_pid < 0)
+	{
+		perror("fork at heredoc");
+		close(fd[0]);
+		close(fd[1]);
+		return (-1);
+	}
 	if (heredoc_pid == 0)
 		read_heredoc(fd, delimiter, shell);
 	set_signals_exec();
 	while (waitpid(heredoc_pid, &status, 0) == -1)
-    if (errno != EINTR)
+	{
+		if (errno != EINTR)
 			break;
+}
 	set_signals();
 	close(fd[1]);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT) {
-    sigint = 1;
-    close(fd[0]);
-    return (-1);
-  }
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+		sigint = 1;
+		shell->last_status = 130;
+		close(fd[0]);
+		return (-1);
+	}
+	if (WIFSIGNALED(status))
+	{
+		shell->last_status = 128 + WTERMSIG(status);
+		close(fd[0]);
+		return (-1);
+	}
 	return (fd[0]);
 }
 

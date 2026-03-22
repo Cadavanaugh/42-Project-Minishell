@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 17:53:07 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/17 19:48:26 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:21:39 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,5 @@ void	call_path(t_ms *shell, char *cmd)
 			break;
 	set_signals();
 	get_return_status(shell, return_status);
+	set_signals();
 }
