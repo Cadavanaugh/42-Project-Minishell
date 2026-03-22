@@ -54,9 +54,24 @@ char	is_builtin(char *input)
 char	*remove_quotes(char *input)
 {
 	int		len;
+	int i;
+	int j;
 	char	*no_quotes;
 
+	i = 0;
+	j = 0;
 	len = ft_strlen(input);
-	no_quotes = ft_substr(input, 1, len - 2);
+	no_quotes = ft_calloc(sizeof(char), len - 1);
+	while(input[i])
+	{
+		if (input[i] == '"')
+		{
+			i++;
+			continue;
+		}
+		no_quotes[j] = input[i];
+		i++;
+		j++;
+	}
 	return (no_quotes);
 }
