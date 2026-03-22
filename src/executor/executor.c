@@ -52,6 +52,7 @@ static pid_t	multi_cmd_exec(t_ms *shell)
 		child_id = fork();
 		if (child_id == 0)
 		{
+			set_signals_child();
 			close(fd[0]);
 			if (shell->cmd_list->next)
 				dup2(fd[1], STDOUT_FILENO);
@@ -77,11 +78,11 @@ static void	single_cmd_exec(t_ms *shell)
 	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
 	{
 		if (sigint) {
-      sigint = 0;
+	  sigint = 0;
 			printf("> \n");
 			shell->last_status = 130;
-      return;
-    }
+	  return;
+	}
 		exit(EXIT_FAILURE);
 	}
 	if (is_builtin(shell->cmd_list->args[0]))
@@ -97,27 +98,6 @@ static void	single_cmd_exec(t_ms *shell)
 	}
 }
 
-static void	await_results(t_ms *shell, pid_t child_pid)
-{
-	int	return_status;
-	t_cmd	*current;
-
-	current = shell->cmd_list;
-	while (current->next)
-	{
-		while (wait(NULL) == -1) {
-      if (errno != EINTR)
-        break;
-    }
-		current = current->next;
-	}
-	while (waitpid(child_pid, &return_status, 0) == -1)
-    if (errno != EINTR)
-      break;
-	if (WIFEXITED(return_status))
-		shell->last_status = WEXITSTATUS(return_status);
-}
-
 void	executor(t_ms *shell)
 {
 	int		initial_stdout;
@@ -130,9 +110,11 @@ void	executor(t_ms *shell)
 	initial_stdin = dup(STDIN_FILENO);
 	if (shell->cmd_list->next)
 	{
+		set_signals_exec();
 		child_pid = multi_cmd_exec(shell);
 		shell->cmd_list = first;
 		await_results(shell, child_pid);
+		set_signals();
 	}
 	else
 		single_cmd_exec(shell);
