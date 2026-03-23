@@ -62,10 +62,12 @@ char	*get_full_cmd_path(t_ms *shell)
 	file = handle_file(shell);
 	if (file != NULL)
 		return file;
+	free(file);
 	path_dirs = get_path_dirs(shell);
 	if (!path_dirs)
 		return (NULL);
 	full_path = mount_full_path(shell, path_dirs);
+	free_matrix(path_dirs);
 	if (!full_path)
 		return (NULL);
 	return (full_path);
