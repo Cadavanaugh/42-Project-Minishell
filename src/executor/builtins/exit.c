@@ -6,11 +6,30 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 19:43:31 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/24 19:43:31 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/24 20:25:37 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static char	is_numeric_input(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (i == 0 && (input[i] == '-' || input[i] == '+'))
+		{
+			i++;
+			continue ;
+		}
+		else if (!ft_isdigit(input[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 void	builtin_exit(t_ms *shell)
 {
@@ -20,14 +39,14 @@ void	builtin_exit(t_ms *shell)
 	if (array_length(shell->cmd_list->args) > 2)
 	{
 		shell->last_status = 1;
-		printf("exit: too many arguments\n");
+		write(STDERR_FILENO, "exit: too many arguments\n", 25);
 		return ;
 	}
-	else if (!ft_isdigit(ft_atoi(shell->cmd_list->args[1])))
+	else if (shell->cmd_list->args[1]
+		&& !is_numeric_input(shell->cmd_list->args[1]))
 	{
-		shell->last_status = 1;
-		printf("exit: %s: numeric argument required\n",
-			shell->cmd_list->args[1]);
+		shell->last_status = 2;
+		write(STDERR_FILENO, "exit: numeric argument required\n", 32);
 		return ;
 	}
 	exit_status = 0;
