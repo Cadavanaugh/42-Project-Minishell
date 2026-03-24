@@ -15,10 +15,15 @@
 
 #include "../minishell.h"
 
-static void	piece_cmd_exec(t_ms *shell)
+static void	piece_cmd_exec(t_ms *shell, int *fd)
 {
 	char	*command_path;
 
+	set_signals_child();
+	close(fd[0]);
+	if (get_env_val("PATH", shell) && shell->cmd_list->next)
+		dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
 	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
 		exit(EXIT_FAILURE);
 	if (is_builtin(shell->cmd_list->args[0]))
@@ -42,19 +47,12 @@ static pid_t	multi_cmd_exec(t_ms *shell)
 
 	while (shell->cmd_list)
 	{
+		expander(shell);
 		if (shell->cmd_list->next && pipe(fd) < 0)
 			perror("pipe");
 		child_id = fork();
 		if (child_id == 0)
-		{
-			
-			set_signals_child();
-			close(fd[0]);
-			if (get_env_val("PATH", shell) && shell->cmd_list->next)
-				dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
-			piece_cmd_exec(shell);
-		}
+			piece_cmd_exec(shell, fd);
 		if (shell->cmd_list->next)
 		{
 			dup2(fd[0], STDIN_FILENO);
@@ -70,6 +68,7 @@ static void	single_cmd_exec(t_ms *shell)
 {
 	char	*command_path;
 
+	expander(shell);
 	if (shell->cmd_list->redirs && apply_redirects(shell) < 0)
 	{
 		if (sigint) {

@@ -29,7 +29,6 @@ int shell_execution(char *input, t_ms *shell)
 	free_token_list(token_list);
 	if (!shell->cmd_list)
 		return (1);
-	expander(shell);
 	executor(shell);
 	free_cmd_list(shell->cmd_list);
 	shell->cmd_list = NULL;
