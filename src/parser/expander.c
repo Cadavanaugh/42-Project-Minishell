@@ -54,7 +54,7 @@ void	rebuild_string(char **og_str, int i, t_ms *shell)
 
 	env_start = i;
 	while ((*og_str)[i + 1] && (*og_str)[i + 1] != ' ' && (*og_str)[i
-		+ 1] != '"')
+		+ 1] != '"' && (*og_str)[i + 1] != '\'')
 		i++;
 	env_end = i;
 	while ((*og_str)[i])
@@ -65,30 +65,47 @@ void	rebuild_string(char **og_str, int i, t_ms *shell)
 	mount_string(og_str, breakpoints, shell);
 }
 
-void	expander(t_ms *shell)
+static void	expand_arg(char **arg, t_ms *shell)
 {
 	int		i;
-	int		j;
-	char	inside_simple_quote;
+	char	state;
 
 	i = 0;
+	state = 0;
+	while ((*arg)[i])
+	{
+		if (state == 0 && ((*arg)[i] == '\'' || (*arg)[i] == '"'))
+			state = (*arg)[i];
+		else if (state == (*arg)[i])
+			state = 0;
+		if ((*arg)[i] == '$' && state != '\'')
+			rebuild_string(arg, i, shell);
+		i++;
+	}
+}
+
+static void	strip_arg_quotes(char **arg)
+{
+	char	*no_quotes;
+
+	if (!ft_strchr(*arg, '"') && !ft_strchr(*arg, '\''))
+		return ;
+	no_quotes = remove_quotes(*arg);
+	if (!no_quotes)
+		return ;
+	free(*arg);
+	*arg = no_quotes;
+}
+
+void	expander(t_ms *shell)
+{
+	int		j;
+
 	j = 0;
-	inside_simple_quote = 0;
 	while (shell->cmd_list->args[j])
 	{
-		i = 0;
-		while (shell->cmd_list->args[j][i])
-		{
-			if (shell->cmd_list->args[j][i] == '\'')
-				inside_simple_quote = boolean_invert(inside_simple_quote);
-			else if (shell->cmd_list->args[j][i] == '$'
-				&& !inside_simple_quote)
-				rebuild_string(&(shell->cmd_list->args[j]), i, shell);
-			i++;
-		}
-		if (ft_strchr(shell->cmd_list->args[j], '"')
-			|| ft_strchr(shell->cmd_list->args[j], '\''))
-			shell->cmd_list->args[j] = remove_quotes(shell->cmd_list->args[j]);
+		expand_arg(&(shell->cmd_list->args[j]), shell);
+		strip_arg_quotes(&(shell->cmd_list->args[j]));
 		j++;
 	}
 }

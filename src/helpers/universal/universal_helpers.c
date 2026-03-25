@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   universal_helpers.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:15:37 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/24 19:44:45 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:02:25 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,30 @@ char	is_builtin(char *input)
 		return (0);
 }
 
-char	*remove_quotes(char *input)
+char	*remove_quotes(char *str)
 {
-	int		len;
+	char	*new;
+	char	state;
 	int		i;
 	int		j;
-	char	*no_quotes;
 
-	i = 0;
-	j = 0;
-	len = ft_strlen(input);
-	no_quotes = ft_calloc(sizeof(char), len + 1);
-	if (!no_quotes)
+	if (!str)
 		return (NULL);
-	while (input[i])
+	new = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	if (!new)
+		return (NULL);
+	i = -1;
+	j = 0;
+	state = 0;
+	while (str[++i])
 	{
-		if (input[i] == '"' || input[i] == '\'')
-		{
-			i++;
-			continue ;
-		}
-		no_quotes[j] = input[i];
-		i++;
-		j++;
+		if (state == 0 && (str[i] == '\'' || str[i] == '\"'))
+			state = str[i];
+		else if (state != 0 && str[i] == state)
+			state = 0;
+		else
+			new[j++] = str[i];
 	}
-	return (no_quotes);
+	return (new);
 }
+
