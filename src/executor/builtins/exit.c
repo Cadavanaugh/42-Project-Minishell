@@ -39,14 +39,14 @@ void	builtin_exit(t_ms *shell)
 	if (array_length(shell->cmd_list->args) > 2)
 	{
 		shell->last_status = 1;
-		write(STDERR_FILENO, "exit: too many arguments\n", 25);
+		ft_putstr_fd("exit: too many arguments\n", 2);
 		return ;
 	}
 	else if (shell->cmd_list->args[1]
 		&& !is_numeric_input(shell->cmd_list->args[1]))
 	{
 		shell->last_status = 2;
-		write(STDERR_FILENO, "exit: numeric argument required\n", 32);
+		ft_putstr_fd("exit: numeric argument required\n", 2);
 		return ;
 	}
 	exit_status = 0;
