@@ -92,6 +92,15 @@ static void	expand_arg(char **arg, t_ms *shell)
 			rebuild_string(arg, i, shell);
 		i++;
 	}
+	if (ft_strlen(*arg) == 0 && array_length(arg) > 1)
+	{
+		i = 0;
+		while (shell->cmd_list->args[i])
+		{
+			shell->cmd_list->args[i] = shell->cmd_list->args[i + 1];
+			i++;
+		}
+	}
 }
 
 static void	strip_arg_quotes(char **arg)
