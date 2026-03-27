@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:10 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/24 19:53:37 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/27 13:43:09 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ char				does_env_exist(char **envs, char *name);
 void				handle_sigint_last_status(t_ms *shell);
 void				free_token_list(t_token *token_list);
 void				free_cmd_list(t_cmd *cmd_list);
-void 				display_error(char *str, const char *error_msg);
+void				display_error(char *str, const char *error_msg);
 
-extern int	g_sigint;
+extern int			g_sigint;
 
 #endif

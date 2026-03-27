@@ -6,21 +6,21 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 16:00:05 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/02 16:23:25 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/27 13:42:57 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static char had_too_many_arguments(char **args, t_ms *shell)
+static char	had_too_many_arguments(char **args, t_ms *shell)
 {
 	if (array_length(args) > 2)
 	{
 		ft_putstr_fd("cd: too many arguments\n", 2);
 		shell->last_status = 1;
-		return 1;
+		return (1);
 	}
-	return 0;
+	return (0);
 }
 
 void	builtin_cd(char **args, t_ms *shell)
@@ -29,7 +29,7 @@ void	builtin_cd(char **args, t_ms *shell)
 	char	*oldpwd;
 	char	*dest;
 
-	if(had_too_many_arguments(args, shell))
+	if (had_too_many_arguments(args, shell))
 		return ;
 	oldpwd = getcwd(cwd, sizeof(cwd));
 	if (!args[1])

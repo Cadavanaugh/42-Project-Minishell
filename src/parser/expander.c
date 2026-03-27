@@ -54,7 +54,7 @@ void	rebuild_string(char **og_str, int i, t_ms *shell)
 
 	env_start = i;
 	if (!(*og_str)[i + 1])
-		return ;	
+		return ;
 	if ((*og_str)[i + 1] == '?')
 		env_end = i + 1;
 	else if (ft_isalpha((*og_str)[i + 1]) || (*og_str)[i + 1] == '_')
