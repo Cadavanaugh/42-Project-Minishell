@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 16:00:05 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/27 14:19:39 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/27 15:09:00 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	had_too_many_arguments(char **args, t_ms *shell)
 		shell->last_status = 1;
 		return (1);
 	}
-	else if (!is_dir(args[1], shell))
+	else if (access(args[1], F_OK) == 0 && !is_dir(args[1], shell))
 	{
 		ft_putstr_fd("cd: Not a directory\n", 2);
 		shell->last_status = 1;
