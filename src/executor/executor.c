@@ -100,8 +100,6 @@ static void	single_cmd_exec(t_ms *shell)
 
 void	executor(t_ms *shell)
 {
-	int		initial_stdout;
-	int		initial_stdin;
 	pid_t	child_pid;
 	t_cmd	*first;
 
