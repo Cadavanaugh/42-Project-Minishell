@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:10 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/27 13:43:09 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/27 15:06:12 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#	include <sys/stat.h>
 
 typedef enum e_token_type
 {
@@ -108,6 +109,7 @@ void				handle_sigint_last_status(t_ms *shell);
 void				free_token_list(t_token *token_list);
 void				free_cmd_list(t_cmd *cmd_list);
 void				display_error(char *str, const char *error_msg);
+char				is_dir(const char *path, t_ms *shell);
 
 extern int			g_sigint;
 
