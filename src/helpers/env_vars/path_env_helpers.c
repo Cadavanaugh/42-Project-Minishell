@@ -6,7 +6,7 @@
 /*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 19:45:08 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/27 14:50:54 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:25:30 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ char	**get_path_dirs(t_ms *shell)
 
 static char	*handle_file(t_ms *shell)
 {
-	if (shell->cmd_list->args[0] && shell->cmd_list->args[0][0] == '.')
+	char	*cmd;
+
+	cmd = shell->cmd_list->args[0];
+	if (cmd && ft_strchr(cmd, '/'))
 	{
-		if (access(shell->cmd_list->args[0], F_OK) == 0)
-			return (ft_strdup(shell->cmd_list->args[0]));
+		return (ft_strdup(cmd));
 	}
 	return (NULL);
 }
@@ -75,7 +77,5 @@ char	*get_full_cmd_path(t_ms *shell)
 		return (NULL);
 	full_path = mount_full_path(shell, path_dirs);
 	free_matrix(path_dirs);
-	if (!full_path)
-		return (NULL);
 	return (full_path);
 }

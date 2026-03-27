@@ -50,6 +50,25 @@ static void	get_return_status(t_ms *shell, int return_status)
 	shell->last_status = return_status_code;
 }
 
+static void	execute_child(t_ms *shell, char *cmd_path)
+{
+	struct stat	st;
+
+	set_signals_child();
+	if (stat(cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
+	{
+		display_error(cmd_path, ": Is a directory\n");
+		exit(126);
+	}
+	execve(cmd_path, shell->cmd_list->args, shell->envs);
+	perror(cmd_path);
+	if (errno == EACCES)
+		exit(126);
+	else if (errno == ENOENT)
+		exit (127);
+	exit(127);
+}
+
 void	call_path(t_ms *shell, char *cmd_path)
 {
 	int		return_status;
@@ -63,11 +82,7 @@ void	call_path(t_ms *shell, char *cmd_path)
 	}
 	child_pid = fork();
 	if (child_pid == 0)
-	{
-		set_signals_child();
-		execve(cmd_path, shell->cmd_list->args, shell->envs);
-		perror(cmd_path);
-	}
+		execute_child(shell, cmd_path);
 	set_signals_exec();
 	while (waitpid(child_pid, &return_status, 0) == -1)
 		if (errno != EINTR)
