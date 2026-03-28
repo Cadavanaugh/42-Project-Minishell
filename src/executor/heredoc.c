@@ -6,7 +6,7 @@
 /*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 09:55:52 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/28 18:05:21 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/28 18:12:40 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,7 @@ static int	handle_heredoc(char *delimiter, t_ms *shell)
 
 int	redirect_heredoc(char *delimiter, t_ms *shell)
 {
-	return (handle_heredoc(delimiter, shell));
+	int	handler;
+	handler = handle_heredoc(delimiter, shell);
+	return (handler);
 }
