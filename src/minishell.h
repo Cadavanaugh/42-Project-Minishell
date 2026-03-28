@@ -110,6 +110,7 @@ void				free_cmd_list(t_cmd *cmd_list);
 void				display_error(char *str, const char *error_msg);
 char				is_dir(const char *path, t_ms *shell);
 char				**deep_copy(char **matrix);
+void				set_signals_heredoc(void);
 
 extern int			g_sigint;
 

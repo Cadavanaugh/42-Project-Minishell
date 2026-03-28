@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 19:44:58 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/24 19:44:58 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/28 16:18:03 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,10 @@ char	is_delimiter_quotted(char *delimiter)
 	if (delimiter[0] == '\'' && delimiter[delim_size - 1] == '\'')
 		return (1);
 	return (0);
+}
+
+void	set_signals_heredoc(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }

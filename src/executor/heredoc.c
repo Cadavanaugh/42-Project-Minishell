@@ -29,8 +29,7 @@ static void	read_heredoc(int *fd, char *delimiter, t_ms *shell)
 {
 	char	*line;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_IGN);
+	set_signals_heredoc();
 	close(fd[0]);
 	while (1)
 	{
