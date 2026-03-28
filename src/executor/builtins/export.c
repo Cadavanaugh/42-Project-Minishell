@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 17:44:02 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/28 13:42:02 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/28 13:56:30 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,53 +28,60 @@ static int	is_valid_identifier(char *name)
 	return (1);
 }
 
-static void	sort_envs_alphabetically(char **envs)
+static char	**sort_envs_alphabetically(char **envs)
 {
 	int		i;
 	int		j;
 	char	*temp;
+	char	**sorted_envs;
 
 	i = 0;
-	while (envs[i])
+	sorted_envs = deep_copy(envs);
+	while (sorted_envs[i])
 	{
 		j = 0;
-		while (envs[j + 1])
+		while (sorted_envs[j + 1])
 		{
-			if (ft_strncmp(envs[j], envs[j + 1], ft_strlen(envs[j]) + 1) > 0)
+			if (ft_strncmp(sorted_envs[j], sorted_envs[j + 1],
+					ft_strlen(sorted_envs[j]) + 1) > 0)
 			{
-				temp = envs[j];
-				envs[j] = envs[j + 1];
-				envs[j + 1] = temp;
+				temp = sorted_envs[j];
+				sorted_envs[j] = sorted_envs[j + 1];
+				sorted_envs[j + 1] = temp;
 			}
 			j++;
 		}
 		i++;
 	}
+	return (sorted_envs);
 }
 
 static void	print_declared(t_ms *shell)
 {
 	char	*eq;
 	int		i;
+	char	**sorted_envs;
 
 	i = 0;
-	sort_envs_alphabetically(shell->envs);
-	while (shell->envs[i])
+	sorted_envs = sort_envs_alphabetically(shell->envs);
+	while (sorted_envs[i])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		eq = ft_strchr(shell->envs[i], '=');
+		eq = ft_strchr(sorted_envs[i], '=');
 		if (!eq)
 		{
-			ft_putstr_fd(shell->envs[i], 1);
+			ft_putstr_fd(sorted_envs[i], 1);
+			free_matrix(sorted_envs);
 			ft_putchar_fd('\n', 1);
 			return ;
 		}
-		write(1, shell->envs[i], eq - shell->envs[i]);
+		write(1, sorted_envs[i], eq - sorted_envs[i]);
 		ft_putstr_fd("=\"", 1);
 		ft_putstr_fd(eq + 1, 1);
 		ft_putstr_fd("\"\n", 1);
 		i++;
 	}
+	free_matrix(sorted_envs);
 	shell->last_status = 0;
 }
 

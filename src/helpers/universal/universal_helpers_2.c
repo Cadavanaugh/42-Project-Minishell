@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:15:37 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/27 15:05:56 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/28 13:56:08 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,32 @@ char	is_dir(const char *path, t_ms *shell)
 	}
 	else
 		return (0);
+}
+
+char	**deep_copy(char **matrix)
+{
+	char	**copy;
+	int		i;
+
+	if (!matrix)
+		return (NULL);
+	i = 0;
+	while (matrix[i])
+		i++;
+	copy = malloc((i + 1) * sizeof(char *));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (matrix[i])
+	{
+		copy[i] = ft_strdup(matrix[i]);
+		if (!copy[i])
+		{
+			free_matrix(copy);
+			return (NULL);
+		}
+		i++;
+	}
+	copy[i] = NULL;
+	return (copy);
 }
