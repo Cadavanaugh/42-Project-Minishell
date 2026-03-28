@@ -6,47 +6,17 @@
 /*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 09:55:52 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/28 17:39:59 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/28 18:05:21 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	expand_line(char **line, t_ms *shell)
-{
-	int	i;
-
-	i = 0;
-	while ((*line)[i])
-	{
-		if ((*line)[i] == '$')
-			rebuild_string(line, i, shell);
-		i++;
-	}
-}
-
 static void	read_heredoc(int *fd, char *delimiter, t_ms *shell)
 {
-	char	*line;
-
-	set_signals_child();
+	set_signals_heredoc();
 	close(fd[0]);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (heredoc_stop_condition(line, delimiter))
-		{
-			free(line);
-			break ;
-		}
-		if (!is_delimiter_quotted(delimiter))
-			expand_line(&line, shell);
-		write(fd[1], line, ft_strlen(line));
-		write(fd[1], "\n", 1);
-		free(line);
-	}
+	heredoc_loop(fd, delimiter, shell);
 	close(fd[1]);
 	exit(0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:10 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/27 17:07:36 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/28 16:47:37 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <sys/stat.h>
 
 typedef enum e_token_type
 {
@@ -79,7 +79,6 @@ t_ms				*create_shell_instance(char **envs);
 void				expander(t_ms *shell);
 char				*get_env_val(const char *name, t_ms *shell);
 void				update_env_val(const char *key, char *value, t_ms *shell);
-void				free_minishell_memory(t_ms *shell);
 char				*remove_quotes(char *input);
 void				executor(t_ms *shell);
 void				free_matrix(char **m);
@@ -110,6 +109,9 @@ void				free_token_list(t_token *token_list);
 void				free_cmd_list(t_cmd *cmd_list);
 void				display_error(char *str, const char *error_msg);
 char				is_dir(const char *path, t_ms *shell);
+char				**deep_copy(char **matrix);
+void				set_signals_heredoc(void);
+void				heredoc_loop(int *fd, char *delimiter, t_ms *shell);
 
 extern int			g_sigint;
 
