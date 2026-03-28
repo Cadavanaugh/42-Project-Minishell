@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:10 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/28 16:47:37 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/28 19:58:29 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ typedef struct s_minishell
 	int				initial_stdin;
 }					t_ms;
 
+typedef struct s_env_breakpoints
+{
+	int				i;
+	int				env_start;
+	int				env_end;
+}					t_env_breakpoints;
+
 t_token				*lexit(char *input);
 int					array_length(char **array);
 t_token_type		get_token_type(char *word);
@@ -112,6 +119,8 @@ char				is_dir(const char *path, t_ms *shell);
 char				**deep_copy(char **matrix);
 void				set_signals_heredoc(void);
 void				heredoc_loop(int *fd, char *delimiter, t_ms *shell);
+char				*expand_env_var_value(const char *og_str, t_env_breakpoints bkpts, t_ms *shell);
+void				remove_empty_arg(char **args);
 
 extern int			g_sigint;
 

@@ -16,6 +16,7 @@ SRCS 			= src/minishell.c \
 						src/helpers/env_vars/env_helpers.c \
 						src/helpers/env_vars/path_env_helpers.c \
 						src/helpers/heredoc_helpers.c \
+						src/helpers/expander_helpers.c \
 						src/helpers/exec_helpers.c \
 						src/helpers/signals_helper.c \
 						src/helpers/shell_helpers.c \

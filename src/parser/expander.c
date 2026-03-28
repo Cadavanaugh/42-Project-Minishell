@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2026/03/07 09:56:50 by jode-cas          #+#    #+#             */
 /*   Updated: 2026/03/07 09:56:50 by jode-cas         ###   ########.fr       */
 /*                                                                            */
@@ -12,29 +15,17 @@
 
 #include "../minishell.h"
 
-typedef struct s_env_breakpoints
-{
-	int	i;
-	int	env_start;
-	int	env_end;
-}	t_env_breakpoints;
 
 static void	mount_string(char **og_str, t_env_breakpoints bkpts, t_ms *shell)
 {
-	char	*before_chunk;
-	char	*after_chunk;
-	char	*var_value;
-	char	*temp;
-	char	*result;
+	char *before_chunk;
+	char *after_chunk;
+	char *var_value;
+	char *temp;
+	char *result;
 
 	before_chunk = ft_substr(*og_str, 0, bkpts.env_start);
-	if ((*og_str)[bkpts.env_start + 1] == '?')
-		var_value = ft_itoa(shell->last_status);
-	else
-		var_value = get_env_val(ft_substr(*og_str, bkpts.env_start + 1,
-					bkpts.env_end - bkpts.env_start), shell);
-	if (!var_value)
-		var_value = ft_strdup("");
+	var_value = expand_env_var_value(*og_str, bkpts, shell);
 	after_chunk = ft_substr(*og_str, bkpts.env_end + 1, bkpts.i - bkpts.env_end
 			+ 1);
 	temp = ft_strjoin(before_chunk, var_value);
@@ -49,9 +40,9 @@ static void	mount_string(char **og_str, t_env_breakpoints bkpts, t_ms *shell)
 
 void	rebuild_string(char **og_str, int i, t_ms *shell)
 {
-	int					env_start;
-	int					env_end;
-	t_env_breakpoints	breakpoints;
+	int env_start;
+	int env_end;
+	t_env_breakpoints breakpoints;
 
 	env_start = i;
 	if (!(*og_str)[i + 1])
@@ -61,8 +52,8 @@ void	rebuild_string(char **og_str, int i, t_ms *shell)
 	else if (ft_isalpha((*og_str)[i + 1]) || (*og_str)[i + 1] == '_')
 	{
 		i++;
-		while ((*og_str)[i + 1] && (ft_isalnum((*og_str)[i + 1])
-				|| (*og_str)[i + 1] == '_'))
+		while ((*og_str)[i + 1] && (ft_isalnum((*og_str)[i + 1]) || (*og_str)[i
+				+ 1] == '_'))
 			i++;
 		env_end = i;
 	}
@@ -78,8 +69,8 @@ void	rebuild_string(char **og_str, int i, t_ms *shell)
 
 static void	expand_arg(char **arg, t_ms *shell)
 {
-	int		i;
-	char	state;
+	int i;
+	char state;
 
 	i = 0;
 	state = 0;
@@ -93,20 +84,12 @@ static void	expand_arg(char **arg, t_ms *shell)
 			rebuild_string(arg, i, shell);
 		i++;
 	}
-	if (ft_strlen(*arg) == 0 && array_length(arg) > 1)
-	{
-		i = 0;
-		while (shell->cmd_list->args[i])
-		{
-			shell->cmd_list->args[i] = shell->cmd_list->args[i + 1];
-			i++;
-		}
-	}
+	remove_empty_arg(shell->cmd_list->args);
 }
 
 static void	strip_arg_quotes(char **arg)
 {
-	char	*no_quotes;
+	char *no_quotes;
 
 	if (!ft_strchr(*arg, '"') && !ft_strchr(*arg, '\''))
 		return ;
@@ -119,8 +102,8 @@ static void	strip_arg_quotes(char **arg)
 
 void	expander(t_ms *shell)
 {
-	int		j;
-	t_redir	*redir;
+	int j;
+	t_redir *redir;
 
 	j = 0;
 	while (shell->cmd_list->args[j])
