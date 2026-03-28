@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 19:43:31 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/24 20:25:37 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/28 16:38:50 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@ static char	is_numeric_input(char *input)
 	return (1);
 }
 
+static void clean_memory_on_exit(t_ms *shell)
+{
+	close(shell->initial_stdout);
+	close(shell->initial_stdin);
+	free_matrix(shell->envs);
+	free_cmd_list(shell->cmd_list);
+	free(shell);
+}
+
 void	builtin_exit(t_ms *shell)
 {
 	int	exit_status;
@@ -53,5 +62,6 @@ void	builtin_exit(t_ms *shell)
 	if (shell->cmd_list->args[1])
 		exit_status = ft_atoi(shell->cmd_list->args[1]);
 	shell->last_status = exit_status;
+	clean_memory_on_exit(shell);
 	exit(exit_status);
 }
