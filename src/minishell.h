@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:10 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/28 13:56:22 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/28 14:01:12 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ t_ms				*create_shell_instance(char **envs);
 void				expander(t_ms *shell);
 char				*get_env_val(const char *name, t_ms *shell);
 void				update_env_val(const char *key, char *value, t_ms *shell);
-void				free_minishell_memory(t_ms *shell);
 char				*remove_quotes(char *input);
 void				executor(t_ms *shell);
 void				free_matrix(char **m);
