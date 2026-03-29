@@ -15,14 +15,13 @@
 
 #include "../minishell.h"
 
-
 static void	mount_string(char **og_str, t_env_breakpoints bkpts, t_ms *shell)
 {
-	char *before_chunk;
-	char *after_chunk;
-	char *var_value;
-	char *temp;
-	char *result;
+	char	*before_chunk;
+	char	*after_chunk;
+	char	*var_value;
+	char	*temp;
+	char	*result;
 
 	before_chunk = ft_substr(*og_str, 0, bkpts.env_start);
 	var_value = expand_env_var_value(*og_str, bkpts, shell);
@@ -40,9 +39,9 @@ static void	mount_string(char **og_str, t_env_breakpoints bkpts, t_ms *shell)
 
 void	rebuild_string(char **og_str, int i, t_ms *shell)
 {
-	int env_start;
-	int env_end;
-	t_env_breakpoints breakpoints;
+	int						env_start;
+	int						env_end;
+	t_env_breakpoints		breakpoints;
 
 	env_start = i;
 	if (!(*og_str)[i + 1])
@@ -69,8 +68,8 @@ void	rebuild_string(char **og_str, int i, t_ms *shell)
 
 static void	expand_arg(char **arg, t_ms *shell)
 {
-	int i;
-	char state;
+	int		i;
+	char	state;
 
 	i = 0;
 	state = 0;
@@ -89,7 +88,7 @@ static void	expand_arg(char **arg, t_ms *shell)
 
 static void	strip_arg_quotes(char **arg)
 {
-	char *no_quotes;
+	char	*no_quotes;
 
 	if (!arg || !*arg)
 		return ;
@@ -104,8 +103,8 @@ static void	strip_arg_quotes(char **arg)
 
 void	expander(t_ms *shell)
 {
-	int j;
-	t_redir *redir;
+	int		j;
+	t_redir	*redir;
 
 	j = 0;
 	while (shell->cmd_list->args[j])

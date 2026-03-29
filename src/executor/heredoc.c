@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 09:55:52 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/28 18:12:40 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/28 21:02:01 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static int	handle_heredoc(char *delimiter, t_ms *shell)
 int	redirect_heredoc(char *delimiter, t_ms *shell)
 {
 	int	handler;
+
 	handler = handle_heredoc(delimiter, shell);
 	return (handler);
 }

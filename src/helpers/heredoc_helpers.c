@@ -6,7 +6,7 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 19:44:58 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/28 17:26:58 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/28 20:57:09 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	heredoc_loop(int *fd, char *delimiter, t_ms *shell)
 		line = readline("> ");
 	}
 	printf("minishell warning: here-document at line %d delimited"
-			" by end-of-file (wanted `%s')\n",
-			line_count,
-			delimiter);
+		" by end-of-file (wanted `%s')\n",
+		line_count,
+		delimiter);
 }
