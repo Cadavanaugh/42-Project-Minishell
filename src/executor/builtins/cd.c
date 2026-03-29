@@ -6,13 +6,13 @@
 /*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 16:00:05 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/27 15:09:00 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/29 16:42:41 by jode-cas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static char	had_too_many_arguments(char **args, t_ms *shell)
+static char	cd_error_check(char **args, t_ms *shell)
 {
 	if (array_length(args) > 2)
 	{
@@ -35,7 +35,7 @@ void	builtin_cd(char **args, t_ms *shell)
 	char	*oldpwd;
 	char	*dest;
 
-	if (had_too_many_arguments(args, shell))
+	if (cd_error_check(args, shell))
 		return ;
 	oldpwd = getcwd(cwd, sizeof(cwd));
 	if (!args[1])
