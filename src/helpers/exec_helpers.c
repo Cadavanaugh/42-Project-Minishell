@@ -25,7 +25,7 @@ void	call_builtins(t_ms *shell)
 	else if (ft_strncmp(shell->cmd_list->args[0], "export", 6) == 0)
 		builtin_export(shell->cmd_list->args, shell);
 	else if (ft_strncmp(shell->cmd_list->args[0], "unset", 5) == 0)
-		builtin_unset(shell, shell->cmd_list->args[1]);
+		builtin_unset(shell, shell->cmd_list->args);
 	else if (ft_strncmp(shell->cmd_list->args[0], "exit", 4) == 0)
 		builtin_exit(shell);
 }

@@ -6,7 +6,7 @@
 /*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:10 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/31 11:51:11 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/31 12:04:31 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void				builtin_pwd(t_ms *shell);
 void				builtin_env(t_ms *shell);
 void				builtin_cd(char **args, t_ms *shell);
 void				builtin_export(char **args, t_ms *shell);
-void				builtin_unset(t_ms *shell, char *name);
+void				builtin_unset(t_ms *shell, char **args);
+char				**build_new_envs(t_ms *shell, char **args);
 void				builtin_exit(t_ms *shell);
 int					apply_redirects(t_ms *shell);
 int					redirect_heredoc(char *delimiter, t_ms *shell);
