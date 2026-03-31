@@ -6,7 +6,7 @@
 /*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 19:45:08 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/27 17:25:30 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:55:16 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	**get_path_dirs(t_ms *shell)
 	path = get_env_val("PATH", shell);
 	if (!path)
 	{
-		display_error(shell->cmd_list->args[0], ": No such file or directory\n");
+		display_error(shell->cmd_list->args[0],
+			": No such file or directory\n");
 		shell->last_status = 127;
 		return (NULL);
 	}

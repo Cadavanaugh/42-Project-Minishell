@@ -6,7 +6,7 @@
 /*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:13:10 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/28 21:32:30 by victde-s         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:51:11 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ char				*remove_quotes(char *input);
 void				executor(t_ms *shell);
 void				free_matrix(char **m);
 void				builtin_echo(t_ms *shell);
+void				builtin_pwd(t_ms *shell);
 void				builtin_env(t_ms *shell);
 void				builtin_cd(char **args, t_ms *shell);
 void				builtin_export(char **args, t_ms *shell);

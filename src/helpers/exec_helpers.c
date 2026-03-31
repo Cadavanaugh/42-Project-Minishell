@@ -14,10 +14,8 @@
 
 void	call_builtins(t_ms *shell)
 {
-	char	cwd[PATH_MAX];
-
 	if (ft_strncmp(shell->cmd_list->args[0], "pwd", 3) == 0)
-		printf("%s\n", getcwd(cwd, sizeof(cwd)));
+		builtin_pwd(shell);
 	else if (ft_strncmp(shell->cmd_list->args[0], "echo", 4) == 0)
 		builtin_echo(shell);
 	else if (ft_strncmp(shell->cmd_list->args[0], "env", 3) == 0)

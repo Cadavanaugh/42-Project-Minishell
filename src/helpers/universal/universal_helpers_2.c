@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   universal_helpers_2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:15:37 by jode-cas          #+#    #+#             */
-/*   Updated: 2026/03/28 13:56:08 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:54:42 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,24 @@ char	is_dir(const char *path, t_ms *shell)
 	}
 	else
 		return (0);
+}
+
+void	builtin_pwd(t_ms *shell)
+{
+	char	cwd[PATH_MAX];
+	char	*cwd_ptr;
+
+	cwd_ptr = getcwd(cwd, sizeof(cwd));
+	if (!cwd_ptr)
+	{
+		perror("minishell: pwd");
+		shell->last_status = 1;
+	}
+	else
+	{
+		printf("%s\n", cwd_ptr);
+		shell->last_status = 0;
+	}
 }
 
 char	**deep_copy(char **matrix)

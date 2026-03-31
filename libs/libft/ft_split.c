@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jode-cas <jode-cas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: victde-s <victde-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:40:57 by jode-cas          #+#    #+#             */
-/*   Updated: 2025/07/27 17:43:52 by jode-cas         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:55:50 by victde-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	fill_array(char **split, size_t word_count, char *start, char c)
 
 	i = 0;
 	while (i < word_count)
-	{		
+	{
 		while (*start == c)
 			start++;
 		end = start;
