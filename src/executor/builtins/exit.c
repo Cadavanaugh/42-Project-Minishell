@@ -92,12 +92,11 @@ void	builtin_exit(t_ms *shell)
 {
 	int	exit_status;
 
-	ft_putendl_fd("exit", 2);
 	if (shell->cmd_list->args[1] && !is_numeric_input(shell->cmd_list->args[1]))
 	{
 		ft_putstr_fd("minishell: exit: numeric argument required\n", 2);
 		clean_memory_on_exit(shell);
-		exit(255);
+		exit(2);
 	}
 	if (array_length(shell->cmd_list->args) > 2)
 	{
